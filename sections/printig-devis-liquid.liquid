@@ -1,0 +1,405 @@
+<!-- PRINT.BZH Page Devis Temporaire v1.0 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#F6F3EE;--card:#EDEAE3;--ink:#008020;--ink-dark:#005C17;--muted:#7A756C;--dark:#1E1C1A;--white:#FFFFFF;--radius:24px;--radius-sm:12px;--border:rgba(0,128,32,0.12);--shadow:0 4px 32px rgba(0,0,0,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Outfit,sans-serif;background:var(--bg);color:var(--dark);font-size:16px;line-height:1.6}
+.pbzh{min-height:100vh;display:flex;flex-direction:column}
+.pbzh-header{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:72px;display:flex;align-items:center;justify-content:space-between;background:rgba(246,243,238,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.pbzh-logo{font-family:Outfit,sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.02em;color:var(--ink);text-decoration:none}
+.pbzh-logo span{opacity:0.4;font-weight:600;margin:0 4px}
+.pbzh-header-tag{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:var(--card);padding:6px 14px;border-radius:100px;border:1px solid var(--border)}
+.pbzh-hero{margin-top:72px;padding:80px 48px 0;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;max-width:1400px;margin-left:auto;margin-right:auto}
+.pbzh-eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:20px}
+.pbzh-eyebrow-dot{width:8px;height:8px;border-radius:50%;background:var(--ink);animation:dp 2.5s ease-in-out infinite}
+@keyframes dp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.8)}}
+.pbzh-eyebrow-text{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink)}
+.pbzh-hero h1{font-size:clamp(2.4rem,4.5vw,4rem);font-weight:800;letter-spacing:-0.03em;line-height:1.05;color:var(--dark);margin-bottom:24px}
+.pbzh-hero h1 em{font-style:normal;color:var(--ink)}
+.pbzh-hero-desc{font-size:1.1rem;font-weight:300;line-height:1.85;color:var(--muted);max-width:440px;margin-bottom:40px}
+.pbzh-hero-desc strong{color:var(--dark);font-weight:600}
+.pbzh-badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:48px}
+.pbzh-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);background:var(--card);border:1px solid var(--border);padding:8px 14px;border-radius:100px}
+.pbzh-badge svg{color:var(--ink);flex-shrink:0}
+.pbzh-hero-img{border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;background:linear-gradient(160deg,#C8E6C9 0%,#E8E4DC 60%,#D4E0D4 100%);position:relative}
+.pbzh-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.pbzh-placeholder span{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(0,128,32,0.25)}
+.pbzh-hero-badge{position:absolute;bottom:20px;left:20px;right:20px;background:rgba(246,243,238,0.95);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 20px;display:flex;align-items:center;gap:12px}
+.pbzh-hero-badge-icon{width:36px;height:36px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pbzh-hero-badge-text strong{display:block;font-size:13px;font-weight:700;color:var(--dark);margin-bottom:2px}
+.pbzh-hero-badge-text span{font-size:12px;color:var(--muted)}
+.pbzh-marquee{overflow:hidden;background:var(--dark);padding:14px 0;margin-top:64px}
+.pbzh-marquee-track{display:flex;gap:0;width:max-content;animation:mq 28s linear infinite}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.pbzh-marquee-item{display:inline-flex;align-items:center;gap:28px;padding:0 28px;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.55);white-space:nowrap}
+.pbzh-marquee-sep{width:4px;height:4px;border-radius:50%;background:var(--ink);flex-shrink:0}
+.pbzh-main{flex:1;padding:80px 48px;max-width:1400px;margin:0 auto;width:100%}
+.pbzh-section-tag{display:inline-flex;align-items:center;gap:8px;margin-bottom:16px}
+.pbzh-section-tag-line{width:24px;height:2px;background:var(--ink);border-radius:2px}
+.pbzh-section-tag-text{font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink)}
+.pbzh-section-title{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:800;letter-spacing:-0.03em;line-height:1.1;color:var(--dark);margin-bottom:16px}
+.pbzh-section-title em{font-style:normal;color:var(--ink)}
+.pbzh-section-desc{font-size:1.05rem;font-weight:300;line-height:1.85;color:var(--muted);max-width:520px}
+.pbzh-atelier{margin-bottom:80px}
+.pbzh-atelier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.pbzh-atelier-card{background:var(--card);border-radius:var(--radius);padding:36px 28px;border:1px solid var(--border);transition:border-color 0.3s,transform 0.3s}
+.pbzh-atelier-card:hover{border-color:var(--ink);transform:translateY(-4px)}
+.pbzh-atelier-card-icon{width:48px;height:48px;border-radius:var(--radius-sm);background:rgba(0,128,32,0.08);display:flex;align-items:center;justify-content:center;margin-bottom:20px;color:var(--ink)}
+.pbzh-atelier-card h3{font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:10px}
+.pbzh-atelier-card p{font-size:14px;font-weight:300;color:var(--muted);line-height:1.75}
+.pbzh-devis{margin-bottom:80px}
+.pbzh-devis-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:start;margin-top:48px}
+.pbzh-chat{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.pbzh-chat-hdr{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;background:rgba(0,128,32,0.03)}
+.pbzh-chat-avatar{width:40px;height:40px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
+.pbzh-chat-info strong{display:block;font-size:14px;font-weight:700;color:var(--dark)}
+.pbzh-chat-info span{font-size:12px;color:var(--muted)}
+.pbzh-chat-status{margin-left:auto;display:flex;align-items:center;gap:6px}
+.pbzh-status-dot{width:8px;height:8px;border-radius:50%;background:#22C55E;animation:dp 2.5s ease-in-out infinite}
+.pbzh-status-text{font-size:11px;font-weight:600;color:#22C55E}
+.pbzh-chat-body{flex:1;padding:20px 24px;display:flex;flex-direction:column;gap:12px;min-height:380px;max-height:520px;overflow-y:auto}
+.pbzh-chat-body::-webkit-scrollbar{width:4px}
+.pbzh-chat-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.pbzh-msg{max-width:88%;display:flex;flex-direction:column;gap:4px}
+.pbzh-msg-bot{align-self:flex-start}
+.pbzh-msg-user{align-self:flex-end}
+.pbzh-msg-bubble{padding:10px 14px;border-radius:2px;font-size:14px;line-height:1.6;white-space:pre-wrap}
+.pbzh-msg-bot .pbzh-msg-bubble{background:var(--card);color:var(--dark);border-left:3px solid var(--ink)}
+.pbzh-msg-user .pbzh-msg-bubble{background:var(--ink);color:var(--white)}
+.pbzh-msg-time{font-size:10px;color:var(--muted);padding:0 4px}
+.pbzh-msg-user .pbzh-msg-time{text-align:right}
+.pbzh-typing{display:none;align-self:flex-start;gap:4px;align-items:center;padding:10px 14px;background:var(--card);border-radius:2px;border-left:3px solid var(--ink)}
+.pbzh-typing span{width:6px;height:6px;border-radius:50%;background:rgba(0,128,32,0.3);animation:td 1.2s ease-in-out infinite}
+.pbzh-typing span:nth-child(2){animation-delay:0.2s}
+.pbzh-typing span:nth-child(3){animation-delay:0.4s}
+@keyframes td{0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+.pbzh-step{background:var(--bg);border-radius:var(--radius-sm);padding:18px;border:1px solid var(--border);margin-bottom:4px}
+.pbzh-step-title{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:12px}
+.pbzh-choices{display:flex;flex-wrap:wrap;gap:8px}
+.pbzh-choice{padding:9px 16px;border-radius:100px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:var(--white);color:var(--dark);cursor:pointer;transition:all 0.2s;font-family:Outfit,sans-serif}
+.pbzh-choice:hover{border-color:var(--ink);color:var(--ink);background:rgba(0,128,32,0.04)}
+.pbzh-choice.selected{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.pbzh-input-area{padding:12px 16px;border-top:1px solid var(--border)}
+.pbzh-input-row{display:flex;gap:8px;align-items:flex-end}
+.pbzh-file-btn{width:42px;height:42px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color 0.2s;flex-shrink:0;color:var(--muted)}
+.pbzh-file-btn:hover{border-color:var(--ink);color:var(--ink)}
+.pbzh-file-btn.has-file{border-color:var(--ink);color:var(--ink);background:rgba(0,128,32,0.06)}
+#pbzh-file-input{display:none}
+.pbzh-input{flex:1;min-width:0;padding:10px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--bg);font-family:Outfit,sans-serif;font-size:14px;color:var(--dark);outline:none;resize:none;line-height:1.5;max-height:120px;overflow:hidden}
+.pbzh-input:focus{border-color:var(--ink)}
+.pbzh-input::placeholder{color:rgba(0,128,32,0.35)}
+.pbzh-send{width:42px;height:42px;border-radius:var(--radius-sm);background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;flex-shrink:0;color:var(--white)}
+.pbzh-send:hover{background:var(--ink-dark)}
+.pbzh-send:disabled{background:var(--border);cursor:default}
+.pbzh-file-preview{display:none;align-items:center;gap:8px;width:100%;padding:8px 12px;background:rgba(0,128,32,0.06);border-radius:var(--radius-sm);border:1px solid rgba(0,128,32,0.15);margin-top:8px}
+.pbzh-file-preview.visible{display:flex}
+.pbzh-file-preview-name{font-size:12px;color:var(--dark);flex:1}
+.pbzh-file-preview-remove{background:none;border:none;cursor:pointer;color:var(--muted);padding:2px;font-size:16px}
+.pbzh-file-preview-remove:hover{color:#EF4444}
+.pbzh-cards{display:flex;flex-direction:column;gap:16px}
+.pbzh-card{background:var(--card);border-radius:var(--radius);padding:24px;border:1px solid var(--border);display:flex;gap:16px;align-items:flex-start;transition:border-color 0.2s}
+.pbzh-card:hover{border-color:rgba(0,128,32,0.3)}
+.pbzh-card-icon{width:44px;height:44px;border-radius:var(--radius-sm);background:rgba(0,128,32,0.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink)}
+.pbzh-card h4{font-size:14px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.pbzh-card p{font-size:14px;color:var(--muted);line-height:1.6}
+.pbzh-card a{color:var(--ink);text-decoration:none;font-weight:500}
+.pbzh-card a:hover{text-decoration:underline}
+.pbzh-tech{margin-bottom:80px}
+.pbzh-tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.pbzh-tech-card{border-radius:var(--radius);padding:36px 28px;border:1px solid var(--border);background:var(--card);transition:border-color 0.3s,transform 0.3s}
+.pbzh-tech-card:hover{border-color:var(--ink);transform:translateY(-4px)}
+.pbzh-tech-card h3{font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;color:var(--dark);margin-bottom:12px}
+.pbzh-tech-card p{font-size:14px;font-weight:300;color:var(--muted);line-height:1.75;margin-bottom:20px}
+.pbzh-tech-tags{display:flex;flex-wrap:wrap;gap:6px}
+.pbzh-tag{font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);background:rgba(0,128,32,0.07);padding:4px 10px;border-radius:100px}
+.pbzh-footer{background:var(--dark);padding:48px}
+.pbzh-footer-inner{max-width:1400px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+.pbzh-footer-logo{font-family:Outfit,sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.02em;color:var(--white)}
+.pbzh-footer-logo span{opacity:0.4;font-weight:600;margin:0 4px}
+.pbzh-footer-links{display:flex;gap:28px}
+.pbzh-footer-links a{font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s}
+.pbzh-footer-links a:hover{color:var(--white)}
+.pbzh-footer-bottom{max-width:1400px;margin:32px auto 0;padding-top:24px;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.pbzh-footer-bottom span{font-size:12px;color:rgba(255,255,255,0.3)}
+.pbzh-success{text-align:center;padding:48px 32px;display:none}
+.pbzh-success-icon{width:64px;height:64px;border-radius:50%;background:rgba(0,128,32,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:var(--ink)}
+.pbzh-success h3{font-size:1.3rem;font-weight:700;color:var(--dark);margin-bottom:12px}
+.pbzh-success p{font-size:14px;color:var(--muted);line-height:1.7}
+@media(max-width:1024px){.pbzh-hero{grid-template-columns:1fr;padding:60px 32px 0}.pbzh-devis-grid{grid-template-columns:1fr}.pbzh-atelier-grid,.pbzh-tech-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.pbzh-header{padding:0 20px}.pbzh-header-tag{display:none}.pbzh-hero{padding:40px 20px 0;gap:32px}.pbzh-main{padding:48px 20px}.pbzh-atelier-grid,.pbzh-tech-grid{grid-template-columns:1fr}.pbzh-footer{padding:36px 20px}.pbzh-footer-inner{flex-direction:column;align-items:flex-start}}
+</style>
+<div class="pbzh">
+<header class="pbzh-header"><a href="/" class="pbzh-logo">PRINTIG<span>.</span>BZH</a><span class="pbzh-header-tag">Atelier Brest &middot; Bretagne</span></header>
+<section class="pbzh-hero">
+<div>
+<div class="pbzh-eyebrow"><div class="pbzh-eyebrow-dot"></div><span class="pbzh-eyebrow-text">Atelier d'impression textile</span></div>
+<h1>Un projet ?<br><em>Parlons-en.</em></h1>
+<p class="pbzh-hero-desc"><strong>PRINTIG.BZH</strong>, c'est un atelier artisanal &agrave; Brest. S&eacute;rigraphie, broderie, DTF. Un interlocuteur unique, de la cr&eacute;ation &agrave; la livraison.<br><br>Remplis le formulaire ci-dessous pour recevoir un devis en <strong>moins de 48h</strong>. Tu peux joindre tes fichiers (logo, maquette, brief).</p>
+<div class="pbzh-badges">
+<span class="pbzh-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>S&eacute;rigraphie</span>
+<span class="pbzh-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Broderie</span>
+<span class="pbzh-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Marquage DTF</span>
+<span class="pbzh-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Textile bio</span>
+<span class="pbzh-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Fait &agrave; Brest</span>
+</div>
+</div>
+<div class="pbzh-hero-img">
+<div class="pbzh-placeholder"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(0,128,32,0.3)" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Atelier PRINTIG.BZH</span></div>
+<div class="pbzh-hero-badge"><div class="pbzh-hero-badge-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></div><div class="pbzh-hero-badge-text"><strong>Un interlocuteur unique</strong><span>De la cr&eacute;ation &agrave; la livraison</span></div></div>
+</div>
+</section>
+<div class="pbzh-marquee"><div class="pbzh-marquee-track">{% for i in (1..6) %}<span class="pbzh-marquee-item">S&eacute;rigraphie<span class="pbzh-marquee-sep"></span>Broderie<span class="pbzh-marquee-sep"></span>Marquage DTF<span class="pbzh-marquee-sep"></span>Textile bio Stanley Stella<span class="pbzh-marquee-sep"></span>Fait &agrave; Brest<span class="pbzh-marquee-sep"></span>Devis en 48h<span class="pbzh-marquee-sep"></span></span>{% endfor %}</div></div>
+<main class="pbzh-main">
+<section class="pbzh-atelier">
+<div class="pbzh-section-tag"><div class="pbzh-section-tag-line"></div><span class="pbzh-section-tag-text">L'atelier</span></div>
+<h2 class="pbzh-section-title">Ce qu'il faut<br><em>savoir sur nous.</em></h2>
+<p class="pbzh-section-desc">Un atelier, trois techniques, un seul objectif : que ton projet soit r&eacute;ussi.</p>
+<div class="pbzh-atelier-grid">
+<div class="pbzh-atelier-card"><div class="pbzh-atelier-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Qualit&eacute; garantie</h3><p>Nous sommes un atelier artisanal, pas une usine. Chaque pi&egrave;ce est v&eacute;rifi&eacute;e avant exp&eacute;dition.</p></div>
+<div class="pbzh-atelier-card"><div class="pbzh-atelier-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><h3>Petites et grandes s&eacute;ries</h3><p>De 20 pi&egrave;ces &agrave; 20 000. M&ecirc;me exigence de qualit&eacute;.</p></div>
+<div class="pbzh-atelier-card"><div class="pbzh-atelier-card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><h3>Livraison Bretagne offerte</h3><p>Livraison gratuite pour toute commande en Bretagne. Suivi inclus.</p></div>
+</div>
+</section>
+<section class="pbzh-devis">
+<div class="pbzh-section-tag"><div class="pbzh-section-tag-line"></div><span class="pbzh-section-tag-text">Demande de devis</span></div>
+<h2 class="pbzh-section-title">Dis-nous en plus<br><em>sur ton projet.</em></h2>
+<p class="pbzh-section-desc">On te r&eacute;pond en moins de 48h. Tu peux joindre tes fichiers (logo, maquette, brief).</p>
+<div class="pbzh-devis-grid">
+<div class="pbzh-chat" id="pbzh-chat">
+<div class="pbzh-chat-hdr"><div class="pbzh-chat-avatar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div class="pbzh-chat-info"><strong>PRINTIG.BZH</strong><span>Devis en moins de 48h</span></div><div class="pbzh-chat-status"><div class="pbzh-status-dot"></div><span class="pbzh-status-text">En ligne</span></div></div>
+<div class="pbzh-chat-body" id="pbzh-body"></div>
+<div class="pbzh-input-area">
+<div class="pbzh-input-row">
+<label for="pbzh-file-input" class="pbzh-file-btn" id="pbzh-file-btn" title="Joindre un fichier"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg></label>
+<input type="file" id="pbzh-file-input" style="display:none" accept="image/*,.pdf,.ai,.eps,.svg,.png,.jpg,.jpeg,.txt,.zip">
+<textarea class="pbzh-input" id="pbzh-input" rows="1" placeholder="D&eacute;cris ton projet ou choisis une option…"></textarea>
+<button class="pbzh-send" id="pbzh-send" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+</div>
+<div class="pbzh-file-preview" id="pbzh-preview"><span class="pbzh-file-preview-name" id="pbzh-filename"></span><button class="pbzh-file-preview-remove" id="pbzh-rm" type="button">&times;</button></div>
+</div>
+</div>
+<div class="pbzh-cards">
+<div class="pbzh-card"><div class="pbzh-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><h4>Email</h4><p><a href="mailto:contact@printig.bzh">contact@printig.bzh</a></p></div></div>
+<div class="pbzh-card"><div class="pbzh-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72"/></svg></div><div><h4>T&eacute;l&eacute;phone</h4><p><a href="tel:+33669903024">06 69 90 30 24</a></p></div></div>
+<div class="pbzh-card"><div class="pbzh-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div><div><h4>Instagram</h4><p><a href="https://instagram.com/print.bzh" target="_blank">@print.bzh</a></p></div></div>
+<div class="pbzh-card"><div class="pbzh-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><h4>Atelier</h4><p>Brest, Finist&egrave;re<br>Bretagne, France</p></div></div>
+</div>
+</div>
+</section>
+<section class="pbzh-tech">
+<div class="pbzh-section-tag"><div class="pbzh-section-tag-line"></div><span class="pbzh-section-tag-text">Nos techniques</span></div>
+<h2 class="pbzh-section-title">Trois fa&ccedil;ons<br><em>d'imprimer juste.</em></h2>
+<div class="pbzh-tech-grid">
+<div class="pbzh-tech-card"><h3>S&eacute;rigraphie</h3><p>La technique reine pour les grandes s&eacute;ries. Rendu &eacute;clatant, couleurs intenses, tenue durable.</p><div class="pbzh-tech-tags"><span class="pbzh-tag">Grandes s&eacute;ries</span><span class="pbzh-tag">Couleurs franches</span></div></div>
+<div class="pbzh-tech-card"><h3>Broderie</h3><p>Le haut de gamme du marquage. Relief et texture pour un rendu premium.</p><div class="pbzh-tech-tags"><span class="pbzh-tag">Premium</span><span class="pbzh-tag">Polos &middot; Casquettes</span></div></div>
+<div class="pbzh-tech-card"><h3>Marquage DTF</h3><p>Impression directe sur textile sans limite de couleurs. Parfait pour les petites s&eacute;ries.</p><div class="pbzh-tech-tags"><span class="pbzh-tag">Petites s&eacute;ries</span><span class="pbzh-tag">Visuels complexes</span></div></div>
+</div>
+</section>
+</main>
+<footer class="pbzh-footer">
+<div class="pbzh-footer-inner"><div class="pbzh-footer-logo">PRINTIG<span>.</span>BZH</div><div class="pbzh-footer-links"><a href="#">CGV</a><a href="#">Mentions l&eacute;gales</a><a href="#">Contact</a></div></div>
+<div class="pbzh-footer-bottom"><span>&copy; 2026 PRINTIG.BZH — Brest, Bretagne</span><span>S&eacute;rigraphie &middot; Broderie &middot; DTF</span></div>
+</footer>
+</div>
+
+<script>
+(function(){
+var WEBHOOK = 'https://n8n.srv1486051.hstgr.cloud/webhook/devis-printbzh';
+var body = document.getElementById('pbzh-body');
+var input = document.getElementById('pbzh-input');
+var sendBtn = document.getElementById('pbzh-send');
+var fileInput = document.getElementById('pbzh-file-input');
+var fileBtn = document.getElementById('pbzh-file-btn');
+var preview = document.getElementById('pbzh-preview');
+var filename = document.getElementById('pbzh-filename');
+var rmBtn = document.getElementById('pbzh-rm');
+var chat = document.getElementById('pbzh-chat');
+
+var pendingFile = null;
+var history = [];
+var step = 0;
+var selectedTech = '';
+
+function addMsg(text, type){
+  var d=document.createElement('div');
+  d.className='pbzh-msg pbzh-msg-'+type;
+  var b=document.createElement('div');
+  b.className='pbzh-msg-bubble';
+  b.textContent=text;
+  d.appendChild(b);
+  var t=document.createElement('div');
+  t.className='pbzh-msg-time';
+  t.textContent=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  d.appendChild(t);
+  body.appendChild(d);
+  body.scrollTop=body.scrollHeight;
+}
+
+function showTyping(){
+  var d=document.createElement('div');
+  d.className='pbzh-typing';
+  d.id='pbzh-typing';
+  d.innerHTML='<span></span><span></span><span></span>';
+  body.appendChild(d);
+  body.scrollTop=body.scrollHeight;
+}
+function hideTyping(){
+  var t=document.getElementById('pbzh-typing');
+  if(t)t.remove();
+}
+
+function showStep(title, choices){
+  var s=document.createElement('div');
+  s.className='pbzh-step';
+  var t=document.createElement('div');
+  t.className='pbzh-step-title';
+  t.textContent=title;
+  s.appendChild(t);
+  var c=document.createElement('div');
+  c.className='pbzh-choices';
+  choices.forEach(function(ch){
+    var b=document.createElement('button');
+    b.className='pbzh-choice';
+    b.textContent=ch;
+    b.onclick=function(){ selectChoice(ch,s); };
+    c.appendChild(b);
+  });
+  s.appendChild(c);
+  body.appendChild(s);
+  body.scrollTop=body.scrollHeight;
+}
+
+function selectChoice(choice, stepEl){
+  var btns=stepEl.querySelectorAll('.pbzh-choice');
+  btns.forEach(function(b){b.classList.remove('selected');});
+  event.target.classList.add('selected');
+  addMsg(choice,'user');
+  setTimeout(function(){
+    if(step===0){
+      selectedTech=choice;
+      step=1;
+      showTyping();
+      setTimeout(function(){
+        hideTyping();
+        showStep('Quel type de projet ?',['T-shirts & textiles','Casquettes & accessoires','Vêtements de travail','Autre']);
+      },800);
+    } else if(step===1){
+      step=2;
+      showTyping();
+      setTimeout(function(){
+        hideTyping();
+        var p=document.createElement('div');
+        p.className='pbzh-msg pbzh-msg-bot';
+        var b=document.createElement('div');
+        b.className='pbzh-msg-bubble';
+        b.textContent='Parfait ! Pour finaliser ton devis, peux-tu me donner ton nom et email ? Ou tu peux directement envoyer ta demande.';
+        p.appendChild(b);
+        body.appendChild(p);
+        body.scrollTop=body.scrollHeight;
+        input.disabled=false;
+        sendBtn.disabled=false;
+        input.focus();
+      },800);
+    }
+  },300);
+}
+
+function doSend(){
+  var txt=input.value.trim();
+  if(!txt && !pendingFile) return;
+  var display=txt;
+  if(pendingFile) display+=(txt?' ':'')+'📎 '+pendingFile.name;
+  addMsg(display,'user');
+  input.value='';
+  sendBtn.disabled=true;
+  showTyping();
+  var formData={message:txt,technique:selectedTech,history:history};
+  if(pendingFile){
+    var reader=new FileReader();
+    reader.onload=function(e){
+      formData.file={name:pendingFile.name,type:pendingFile.type,data:e.target.result.split(',')[1]};
+      sendToWebhook(formData);
+    };
+    reader.readAsDataURL(pendingFile);
+  } else {
+    sendToWebhook(formData);
+  }
+}
+
+function sendToWebhook(data){
+  fetch(WEBHOOK,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  }).then(function(r){return r.json();})
+    .then(function(d){
+      hideTyping();
+      var reply=d.reply||d.message||"Merci ! On te r&eacute;pond sous 48h.";
+      addMsg(reply,'bot');
+      history.push({role:'user',content:data.message},{role:'assistant',content:reply});
+      input.disabled=true;
+      sendBtn.disabled=true;
+      input.placeholder='Demande envoy&eacute;e !';
+      // show success in chat
+      var s=document.createElement('div');
+      s.className='pbzh-success';
+      s.innerHTML='<div class="pbzh-success-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></div><h3>Demande envoy&eacute;e !</h3><p>On te r&eacute;pond sous 48h par email.</p>';
+      body.appendChild(s);
+      body.scrollTop=body.scrollHeight;
+    })
+    .catch(function(){
+      hideTyping();
+      addMsg('Erreur de connexion. Tu peux nous envoyer un email directement : contact@printig.bzh','bot');
+    });
+}
+
+// File handling
+fileInput.addEventListener('change',function(){
+  if(fileInput.files[0]){
+    pendingFile=fileInput.files[0];
+    fileBtn.classList.add('has-file');
+    preview.classList.add('visible');
+    filename.textContent=pendingFile.name;
+    sendBtn.disabled=false;
+    input.placeholder='Ajoute un message ou envoie directement';
+  }
+});
+rmBtn.addEventListener('click',function(){
+  pendingFile=null;
+  fileInput.value='';
+  fileBtn.classList.remove('has-file');
+  preview.classList.remove('visible');
+  if(!input.value.trim()) sendBtn.disabled=true;
+  input.placeholder='D&eacute;cris ton projet ou choisis une option…';
+});
+
+input.addEventListener('input',function(){
+  if(!input.disabled) sendBtn.disabled=!input.value.trim() && !pendingFile;
+  // auto-resize
+  input.style.height='auto';
+  input.style.height=Math.min(input.scrollHeight,120)+'px';
+});
+input.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doSend();}
+});
+sendBtn.addEventListener('click',doSend);
+
+// Init
+setTimeout(function(){
+  showTyping();
+  setTimeout(function(){
+    hideTyping();
+    showStep('Quelle technique t'int&eacute;resse ?',['S&eacute;rigraphie','Broderie','Marquage DTF','Je ne sais pas encore']);
+  },1000);
+},500);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "PRINTIG Devis",
+  "settings": [],
+  "presets": [{"name": "PRINTIG Devis"}]
+}
+{% endschema %}
