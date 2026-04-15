@@ -1,0 +1,1851 @@
+{% comment %}
+  PRINT.BZH — Landing Page Neo-Futurisme / Maximalisme
+  Fichier  : sections/printbzh-landing.liquid
+  Style    : Craft · Atelier · Bleu Reflex + Or + Blanc Cassé
+  Fonts    : PriceCheck (H1/H2) — uploader pricecheck.woff2 + pricecheck.woff dans Shopify Assets
+             Outfit (corps) — Google Fonts
+  Images   : Aucune obligatoire (blocs couleur)
+             Optionnel : printbzh-hero-bg.jpg, printbzh-atelier.jpg
+  n8n      : Remplacer N8N_WEBHOOK par l'URL réelle
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap">
+
+<style>
+/* ─── Workfolk custom font ─── */
+@font-face {
+  font-family: 'PriceCheck';
+  src: url('{{ "pricecheck.woff2" | asset_url }}') format('woff2'),
+       url('{{ "pricecheck.woff"  | asset_url }}') format('woff');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Variables ─── */
+:root {
+  --bg:           #F5F0EA;   /* beige crème */
+  --bg-2:         #2A2A2A;   /* sections sombres */
+  --green:        #0205D3;   /* bleu roi électrique */
+  --green-bright: #0D15E8;
+  --green-glow:   rgba(2,5,211,0.15);
+  --green-dim:    rgba(2,5,211,0.07);
+  --orange:       #0205D3;   /* bleu roi (CTAs = bleu) */
+  --orange-hover: #091747;   /* navy hover */
+  --orange-glow:  rgba(2,5,211,0.2);
+  --orange-dim:   rgba(2,5,211,0.07);
+  --light:        #091747;   /* bleu marine profond */
+  --muted:        rgba(9,23,71,0.55);
+  --border:       rgba(9,23,71,0.12);
+  --display:      'PriceCheck', 'Impact', sans-serif;
+  --body:         'Outfit', sans-serif;
+}
+
+/* ─── Reset ─── */
+.pbzh * { margin:0; padding:0; box-sizing:border-box; }
+.pbzh a { text-decoration:none; color:inherit; }
+.pbzh img { display:block; width:100%; height:100%; object-fit:cover; }
+
+/* ─── Animations ─── */
+@keyframes pbzh-up {
+  from { opacity:0; transform:translateY(80px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pbzh-fade {
+  from { opacity:0; } to { opacity:1; }
+}
+@keyframes pbzh-header-in {
+  from { opacity:0; transform:translateY(-100%); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pbzh-marquee {
+  from { transform:translateX(0); }
+  to   { transform:translateX(-50%); }
+}
+@keyframes pbzh-glow-pulse {
+  0%,100% { opacity:.6; }
+  50%     { opacity:1; }
+}
+@keyframes pbzh-scan {
+  from { transform:translateY(-100%); }
+  to   { transform:translateY(100vh); }
+}
+@keyframes pbzh-glitch {
+  0%   { clip-path:inset(0 0 100% 0); transform:translateX(0); }
+  10%  { clip-path:inset(10% 0 80% 0); transform:translateX(-4px); }
+  20%  { clip-path:inset(30% 0 50% 0); transform:translateX(4px); }
+  30%  { clip-path:inset(50% 0 30% 0); transform:translateX(-2px); }
+  40%  { clip-path:inset(70% 0 10% 0); transform:translateX(3px); }
+  50%  { clip-path:inset(80% 0 5% 0);  transform:translateX(-4px); }
+  60%  { clip-path:inset(60% 0 20% 0); transform:translateX(2px); }
+  70%  { clip-path:inset(40% 0 40% 0); transform:translateX(-3px); }
+  80%  { clip-path:inset(20% 0 60% 0); transform:translateX(4px); }
+  90%  { clip-path:inset(5% 0 90% 0);  transform:translateX(-2px); }
+  100% { clip-path:inset(0 0 100% 0);  transform:translateX(0); }
+}
+@keyframes pbzh-float {
+  0%,100% { transform:translateY(0); }
+  50%     { transform:translateY(-12px); }
+}
+@keyframes pbzh-dot-pulse {
+  0%,100% { transform:scale(1); opacity:.4; }
+  50%     { transform:scale(1.8); opacity:1; }
+}
+
+/* ─── Reveal ─── */
+.pbzh-reveal {
+  opacity:0;
+  transform:translateY(60px);
+  transition: opacity .8s cubic-bezier(.22,1,.36,1),
+              transform .8s cubic-bezier(.22,1,.36,1);
+}
+.pbzh-reveal.is-visible { opacity:1; transform:translateY(0); }
+
+/* ─── Dot grid background ─── */
+.pbzh-dots { display:none; }
+
+/* ─── Scanline ─── */
+.pbzh-scanline {
+  display:none;
+}
+
+/* ─── Grain supprimé ─── */
+.pbzh::after { display:none; }
+
+/* ─── Brackets & section numbers supprimés ─── */
+.pbzh-bracket,
+.pbzh-section-num { display:none; }
+
+/* ════════════════════════════════════
+   HEADER
+════════════════════════════════════ */
+#pbzh-header {
+  position:fixed; top:0; left:0; right:0; z-index:1000;
+  padding:18px 40px;
+  display:flex; align-items:center; justify-content:space-between;
+  transition: background .4s ease, border-color .4s ease;
+  border-bottom:1px solid transparent;
+  animation: pbzh-header-in .6s ease-out forwards;
+}
+#pbzh-header.is-scrolled {
+  background: rgba(245,240,234,0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom-color: var(--border);
+}
+.pbzh-logo {
+  font-family: var(--display);
+  font-weight:900;
+  font-size:1.8rem;
+  color:var(--green);
+  letter-spacing:-.02em;
+  display:flex; align-items:center;
+}
+.pbzh-logo .dot {
+  color:var(--orange);
+  font-size:2.4rem;
+  line-height:1;
+}
+.pbzh-nav {
+  display:flex; gap:32px; align-items:center; list-style:none;
+}
+.pbzh-nav a {
+  font-family:var(--body);
+  font-size:.8rem; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted);
+  transition:color .3s ease;
+  position:relative;
+}
+.pbzh-nav a::after {
+  content:'';
+  position:absolute; bottom:-4px; left:0; right:0;
+  height:1px; background:var(--green);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .3s ease;
+}
+.pbzh-nav a:hover { color:var(--light); }
+.pbzh-nav a:hover::after { transform:scaleX(1); }
+.pbzh-nav-cta {
+  font-family:var(--body);
+  font-size:.75rem; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:#fff !important;
+  background:var(--orange);
+  padding:10px 22px; border-radius:8px;
+  transition:background .3s ease !important;
+}
+.pbzh-nav-cta::after { display:none !important; }
+.pbzh-nav-cta:hover {
+  background:var(--orange-hover) !important;
+  color:#fff !important;
+}
+.pbzh-nav-toggle {
+  display:none; flex-direction:column; gap:5px;
+  background:none; border:none; cursor:pointer; padding:4px;
+}
+.pbzh-nav-toggle span {
+  display:block; width:24px; height:2px;
+  background:var(--light); transition:all .3s ease;
+}
+
+/* Header fond initial */
+#pbzh-header { background: var(--bg); }
+
+/* ════════════════════════════════════
+   HERO
+════════════════════════════════════ */
+#pbzh-hero {
+  position:relative;
+  width:100%; min-height:100vh;
+  background:var(--bg);
+  display:flex; flex-direction:column;
+  justify-content:center;
+  overflow:hidden;
+  padding-top:80px;
+}
+
+/* Fond optionnel photo */
+.pbzh-hero-photo {
+  position:absolute; inset:0;
+  /* background-image:url('{{ "printbzh-hero-bg.jpg" | asset_url }}');
+     background-size:cover; background-position:center; */
+  background:linear-gradient(145deg, #E8E3DA 0%, #F5F0EA 55%, #ECE8E0 100%);
+}
+.pbzh-hero-photo-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to right, rgba(245,240,234,.92) 0%, rgba(245,240,234,.6) 60%, rgba(245,240,234,.15) 100%);
+}
+
+/* Accent bar gauche hero */
+.pbzh-hero-lines {
+  position:absolute; inset:0; pointer-events:none; z-index:2;
+}
+.pbzh-hero-lines::before {
+  content:'';
+  position:absolute; left:0; top:0; bottom:0;
+  width:4px; background:var(--green);
+}
+.pbzh-hero-lines::after { display:none; }
+
+/* Grille de points */
+.pbzh-hero .pbzh-dots { opacity:.4; }
+
+/* Scanline */
+.pbzh-hero .pbzh-scanline { z-index:6; }
+
+/* Contenu hero */
+.pbzh-hero-content {
+  position:relative; z-index:10;
+  padding:0 6vw;
+  width:100%;
+}
+
+/* Surtitre */
+.pbzh-hero-eyebrow {
+  display:inline-flex; align-items:center; gap:12px;
+  margin-bottom:20px;
+}
+.pbzh-hero-eyebrow-tag {
+  font-family:var(--body);
+  font-size:.7rem; font-weight:600;
+  letter-spacing:.25em; text-transform:uppercase;
+  color:var(--green-bright);
+  border:1px solid var(--border);
+  padding:5px 14px; border-radius:20px;
+  background:var(--green-dim);
+}
+.pbzh-hero-eyebrow-line { display:none; }
+
+/* H1 massif */
+.pbzh-hero-h1 {
+  font-family:var(--display);
+  font-weight:900;
+  font-size:clamp(2.2rem, 4.5vw, 4.5rem);
+  line-height:.95;
+  letter-spacing:-.03em;
+  color:var(--light);
+  margin-bottom:0;
+  overflow:visible;
+}
+.pbzh-hero-h1 .line-1 { display:block; }
+.pbzh-hero-h1 .line-2 {
+  display:block;
+  color:var(--green);
+}
+.pbzh-hero-h1 .line-3 {
+  display:block;
+}
+
+/* Divider supprimé */
+.pbzh-hero-divider { display:none; }
+
+/* Sous-titre + CTA */
+.pbzh-hero-bottom {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:40px;
+}
+.pbzh-hero-sub {
+  font-family:var(--body);
+  font-size:clamp(1rem, 1.3vw, 1.2rem);
+  font-weight:300;
+  line-height:1.8;
+  color:var(--muted);
+  max-width:440px;
+}
+.pbzh-hero-sub strong { color:var(--light); font-weight:500; }
+.pbzh-hero-sep { color:var(--orange); margin:0 6px; }
+.pbzh-hero-ctas { display:flex; gap:14px; flex-wrap:wrap; }
+
+/* Boutons */
+.pbzh-btn-primary {
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--orange); color:#fff;
+  padding:16px 36px; border-radius:8px;
+  font-family:var(--body); font-size:.85rem; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase;
+  border:none; cursor:pointer;
+  transition:all .3s cubic-bezier(.22,1,.36,1);
+}
+.pbzh-btn-primary:hover {
+  background:var(--orange-hover);
+  transform:translateY(-2px);
+  color:#fff;
+}
+.pbzh-btn-outline {
+  display:inline-flex; align-items:center; gap:10px;
+  background:transparent; color:var(--light);
+  padding:15px 36px; border-radius:8px;
+  font-family:var(--body); font-size:.85rem; font-weight:500;
+  letter-spacing:.12em; text-transform:uppercase;
+  border:1.5px solid var(--border);
+  transition:all .3s ease;
+}
+.pbzh-btn-outline:hover {
+  border-color:var(--green);
+  color:var(--green);
+  transform:translateY(-2px);
+}
+
+/* Badge Stanley Stella */
+.pbzh-stanley {
+  position:absolute; right:6vw; bottom:60px; z-index:10;
+  text-align:right;
+  border:1px solid var(--border);
+  padding:16px 24px; border-radius:2px;
+  background:rgba(250,247,242,0.92);
+  backdrop-filter:blur(10px);
+}
+.pbzh-stanley-tag {
+  font-family:var(--body); font-size:.65rem; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--green-bright); display:block; margin-bottom:4px;
+}
+.pbzh-stanley-name {
+  font-family:var(--display); font-weight:900; font-size:1.4rem;
+  color:var(--light); letter-spacing:-.01em;
+}
+
+/* Scroll indicator */
+.pbzh-scroll {
+  position:absolute; bottom:32px; left:6vw; z-index:10;
+  display:flex; align-items:center; gap:16px;
+}
+.pbzh-scroll-text {
+  font-family:var(--body); font-size:.65rem; font-weight:500;
+  letter-spacing:.25em; text-transform:uppercase; color:var(--muted);
+}
+.pbzh-scroll-bar {
+  width:40px; height:1px;
+  background:linear-gradient(to right, var(--green), transparent);
+}
+
+/* ════════════════════════════════════
+   MARQUEE
+════════════════════════════════════ */
+.pbzh-marquee {
+  overflow:hidden;
+  background:var(--green);
+  padding:14px 0;
+  border-top:none;
+  border-bottom:none;
+}
+.pbzh-marquee-track {
+  display:flex; gap:0;
+  width:max-content;
+  animation:pbzh-marquee 22s linear infinite;
+}
+.pbzh-marquee-item {
+  display:inline-flex; align-items:center; gap:32px;
+  padding:0 32px;
+  font-family:var(--display); font-weight:900;
+  font-size:clamp(.9rem, 1.3vw, 1.1rem);
+  letter-spacing:.12em; text-transform:uppercase;
+  color:#fff; white-space:nowrap;
+}
+.pbzh-marquee-dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--orange); flex-shrink:0;
+}
+.pbzh-marquee--dark {
+  background:var(--bg-2);
+}
+.pbzh-marquee--dark .pbzh-marquee-item { color:var(--muted); }
+.pbzh-marquee--dark .pbzh-marquee-dot  { background:var(--green); }
+.pbzh-marquee--reverse .pbzh-marquee-track {
+  animation-direction:reverse;
+}
+
+/* ════════════════════════════════════
+   ATELIER
+════════════════════════════════════ */
+#pbzh-atelier {
+  position:relative;
+  background:var(--bg);
+  padding:120px 6vw;
+  overflow:hidden;
+}
+.pbzh-atelier-num {
+  position:absolute; right:-2vw; top:40px;
+  line-height:1;
+}
+.pbzh-atelier-inner {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px; align-items:center;
+  max-width:1400px; margin:0 auto;
+  position:relative; z-index:2;
+}
+.pbzh-atelier-left { }
+.pbzh-atelier-tag {
+  display:inline-flex; align-items:center; gap:10px;
+  margin-bottom:28px;
+}
+.pbzh-atelier-tag-text {
+  font-family:var(--body); font-size:.75rem; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--green);
+}
+.pbzh-atelier-tag-line { display:none; }
+.pbzh-atelier-h2 {
+  font-family:var(--display);
+  font-weight:900;
+  font-size:clamp(1.8rem, 3vw, 3rem);
+  line-height:1;
+  letter-spacing:-.03em;
+  color:var(--light);
+  margin-bottom:36px;
+}
+.pbzh-atelier-h2 em {
+  font-style:normal;
+  color:var(--green);
+}
+.pbzh-atelier-body {
+  font-family:var(--body);
+  font-size:1.05rem; font-weight:300; line-height:1.9;
+  color:var(--muted); max-width:460px;
+  margin-bottom:16px;
+}
+.pbzh-atelier-feats {
+  display:flex; flex-direction:column; gap:12px;
+  margin-top:36px;
+}
+.pbzh-atelier-feat {
+  padding:20px 22px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-left:3px solid var(--green);
+  border-radius:2px;
+}
+.pbzh-atelier-feat-icon {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:30px; height:30px;
+  background:var(--green-dim);
+  border-radius:50%;
+  margin-bottom:10px;
+  color:var(--green);
+  flex-shrink:0;
+}
+.pbzh-atelier-feat-title {
+  font-family:var(--body);
+  font-size:.875rem; font-weight:400;
+  color:var(--light); line-height:1.6;
+  margin-bottom:6px;
+}
+.pbzh-atelier-feat-title span {
+  font-weight:700; color:var(--green);
+}
+.pbzh-atelier-feat-desc {
+  font-family:var(--body);
+  font-size:.82rem; font-weight:400;
+  color:var(--muted); line-height:1.75;
+}
+.pbzh-atelier-right { position:relative; }
+.pbzh-atelier-img-wrap {
+  width:100%; aspect-ratio:4/5;
+  border:1px solid var(--border);
+  border-radius:2px; overflow:hidden;
+  position:relative;
+  background:linear-gradient(160deg,#C8CCF4,#E8E4DC);
+}
+.pbzh-atelier-img-wrap img { width:100%; height:100%; object-fit:cover; }
+.pbzh-atelier-placeholder {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:16px;
+}
+.pbzh-atelier-placeholder span {
+  font-family:var(--body); font-size:.7rem; font-weight:500;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:rgba(2,5,211,0.20);
+}
+.pbzh-atelier-glow-border {
+  display:none;
+}
+.pbzh-atelier-badge {
+  position:absolute; bottom:24px; left:-24px; right:24px;
+  background:rgba(245,240,234,0.95);
+  border:1px solid var(--border); border-radius:2px;
+  padding:18px 24px;
+  backdrop-filter:blur(10px);
+}
+.pbzh-atelier-badge::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background:var(--orange);
+}
+.pbzh-atelier-badge strong {
+  display:block; font-family:var(--body);
+  color:var(--light); font-size:.85rem; font-weight:600;
+  margin-bottom:2px;
+}
+.pbzh-atelier-badge span {
+  font-family:var(--body);
+  color:var(--muted); font-size:.75rem;
+}
+
+/* ════════════════════════════════════
+   TECHNIQUES — Blocs couleur massifs
+════════════════════════════════════ */
+#pbzh-techniques { }
+.pbzh-tech-header {
+  background:var(--bg-2);
+  padding:100px 6vw 80px;
+  position:relative; overflow:hidden;
+}
+.pbzh-tech-header .pbzh-dots { opacity:.3; }
+.pbzh-tech-header-inner {
+  max-width:1400px; margin:0 auto;
+  position:relative; z-index:2;
+  display:flex; justify-content:space-between; align-items:flex-end;
+  flex-wrap:wrap; gap:40px;
+}
+.pbzh-tech-header h2 {
+  font-family:var(--display);
+  font-weight:900;
+  font-size:clamp(1.8rem,3.2vw,3.2rem);
+  line-height:1; letter-spacing:-.03em;
+  color:var(--light);
+}
+.pbzh-tech-header h2 em {
+  font-style:normal;
+  color:var(--green);
+}
+.pbzh-tech-header-sub {
+  font-family:var(--body);
+  font-size:1.05rem; font-weight:300; line-height:1.85;
+  color:var(--muted); max-width:360px;
+}
+
+/* Bloc technique individuel */
+.pbzh-tech-block {
+  position:relative; min-height:90vh;
+  display:flex; align-items:center;
+  overflow:hidden;
+}
+.pbzh-tech-block:nth-child(odd)  .pbzh-tech-content { padding-left:6vw; }
+.pbzh-tech-block:nth-child(even) .pbzh-tech-content { padding-left:auto; margin-left:auto; padding-right:6vw; text-align:right; }
+.pbzh-tech-block:nth-child(even) .pbzh-tech-tag-list { justify-content:flex-end; }
+
+/* Fonds couleur */
+.pbzh-tech-block--seri {
+  background:radial-gradient(ellipse at 30% 60%, rgba(2,5,211,0.05) 0%, var(--bg) 65%);
+  border-top:1px solid var(--border);
+}
+.pbzh-tech-block--brode {
+  background:radial-gradient(ellipse at 70% 40%, rgba(2,5,211,0.04) 0%, var(--bg-2) 65%);
+}
+.pbzh-tech-block--dtf {
+  background:radial-gradient(ellipse at 20% 70%, rgba(2,5,211,0.05) 0%, var(--bg) 65%);
+  border-bottom:1px solid var(--border);
+}
+
+/* Numéros décoratifs supprimés */
+.pbzh-tech-bg-num { display:none; }
+
+/* Ligne déco */
+.pbzh-tech-vline {
+  position:absolute; top:0; bottom:0; width:1px;
+  background:linear-gradient(to bottom, transparent, rgba(2,5,211,0.3), transparent);
+}
+.pbzh-tech-block:nth-child(odd)  .pbzh-tech-vline { left:0; }
+.pbzh-tech-block:nth-child(even) .pbzh-tech-vline { right:0; }
+
+/* Contenu */
+.pbzh-tech-content {
+  position:relative; z-index:10;
+  width:100%; max-width:700px;
+  padding:100px 6vw;
+}
+.pbzh-tech-eyebrow {
+  display:inline-flex; align-items:center; gap:10px;
+  margin-bottom:24px;
+}
+.pbzh-tech-eyebrow-num {
+  font-family:var(--body); font-size:.7rem; font-weight:700;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--orange);
+}
+.pbzh-tech-eyebrow-sep { display:none; }
+.pbzh-tech-eyebrow-label {
+  font-family:var(--body); font-size:.7rem; font-weight:500;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--muted);
+}
+.pbzh-tech-h3 {
+  font-family:var(--display);
+  font-weight:900;
+  font-size:clamp(2rem, 4.5vw, 4.5rem);
+  line-height:1; letter-spacing:-.04em;
+  color:var(--light);
+  margin-bottom:32px;
+}
+.pbzh-tech-h3 .glow {
+  color:var(--green-bright);
+}
+.pbzh-tech-h3 .stroke {
+  color:var(--green);
+}
+.pbzh-tech-desc {
+  font-family:var(--body);
+  font-size:1.05rem; font-weight:300; line-height:1.9;
+  color:var(--muted); max-width:480px;
+  margin-bottom:36px;
+}
+.pbzh-tech-tag-list { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:36px; }
+.pbzh-tech-tag {
+  font-family:var(--body); font-size:.7rem; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted);
+  border:1px solid var(--border);
+  padding:6px 14px; border-radius:20px;
+  transition:border-color .3s ease, color .3s ease;
+}
+.pbzh-tech-tag:hover {
+  border-color:var(--green);
+  color:var(--green-bright);
+}
+.pbzh-tech-cta {
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:var(--body); font-size:.8rem; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--green);
+  border-bottom:1px solid rgba(2,5,211,0.3);
+  padding-bottom:4px;
+  transition:gap .3s ease, border-color .3s ease;
+}
+.pbzh-tech-cta:hover { gap:16px; border-color:var(--green); color:var(--green); }
+.pbzh-tech-cta:hover { gap:16px; border-color:var(--orange); color:var(--orange); }
+
+/* ════════════════════════════════════
+   PRODUITS
+════════════════════════════════════ */
+#pbzh-produits {
+  position:relative;
+  background:var(--bg-2);
+  padding:120px 6vw;
+  overflow:hidden;
+}
+.pbzh-produits-header {
+  max-width:1400px; margin:0 auto 72px;
+  display:flex; justify-content:space-between;
+  align-items:flex-end; flex-wrap:wrap; gap:40px;
+}
+.pbzh-produits-h2 {
+  font-family:var(--display);
+  font-weight:900;
+  font-size:clamp(1.8rem,3vw,3rem);
+  line-height:1; letter-spacing:-.03em;
+  color:var(--light);
+}
+.pbzh-produits-h2 em {
+  font-style:normal; color:var(--orange);
+}
+.pbzh-produits-sub {
+  font-family:var(--body);
+  font-size:1rem; font-weight:300; line-height:1.8;
+  color:var(--muted); max-width:320px;
+}
+.pbzh-produits-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2px;
+  max-width:1400px; margin:0 auto 60px;
+  border:1px solid var(--border);
+  border-radius:2px; overflow:hidden;
+}
+.pbzh-produit-card {
+  background:var(--bg);
+  border-right:1px solid var(--border);
+  transition:background .4s ease;
+  cursor:pointer; overflow:hidden;
+  position:relative;
+}
+.pbzh-produit-card:last-child { border-right:none; }
+.pbzh-produit-card::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background:var(--green);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .4s ease;
+}
+.pbzh-produit-card:hover { background:#333333; }
+.pbzh-produit-card:hover::before { transform:scaleX(1); }
+.pbzh-produit-img {
+  aspect-ratio:3/4;
+  background:linear-gradient(160deg,#C8CCF4,#E8E4DC);
+  position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+.pbzh-produit-img img { width:100%; height:100%; object-fit:cover; }
+.pbzh-produit-img-icon { color:rgba(2,5,211,0.18); }
+.pbzh-produit-info { padding:24px 20px; }
+.pbzh-produit-num {
+  font-family:var(--body); font-size:.65rem; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--orange); margin-bottom:8px; display:block;
+}
+.pbzh-produit-h3 {
+  font-family:var(--display);
+  font-weight:900; font-size:1.4rem;
+  color:var(--light); letter-spacing:-.02em;
+  margin-bottom:10px;
+}
+.pbzh-produit-p {
+  font-family:var(--body);
+  font-size:.8rem; font-weight:300; line-height:1.6;
+  color:var(--muted); margin-bottom:18px;
+}
+.pbzh-produit-link {
+  font-family:var(--body); font-size:.7rem; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--green-bright);
+  display:inline-flex; align-items:center; gap:6px;
+  transition:gap .3s ease;
+}
+.pbzh-produit-link:hover { gap:10px; color:var(--green-bright); }
+.pbzh-produits-more {
+  max-width:1400px; margin:0 auto;
+  border:1px solid var(--border); border-radius:2px;
+  padding:24px 32px;
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:16px;
+}
+.pbzh-produits-more p {
+  font-family:var(--body); font-size:.9rem;
+  color:var(--muted);
+}
+.pbzh-produits-more a {
+  font-family:var(--body); font-size:.8rem; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--orange);
+  display:inline-flex; align-items:center; gap:8px;
+  transition:gap .3s ease;
+}
+.pbzh-produits-more a:hover { gap:12px; color:var(--orange); }
+
+/* ════════════════════════════════════
+   TÉMOIGNAGES
+════════════════════════════════════ */
+#pbzh-temoignages {
+  position:relative;
+  background:var(--bg);
+  padding:120px 6vw;
+  overflow:hidden;
+}
+.pbzh-temoignages-header {
+  max-width:1400px; margin:0 auto 72px;
+  position:relative; z-index:2;
+}
+.pbzh-temo-tag {
+  display:inline-flex; align-items:center; gap:10px;
+  margin-bottom:20px;
+}
+.pbzh-temo-tag span {
+  font-family:var(--body); font-size:.7rem; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--green-bright);
+}
+.pbzh-temoignages-h2 {
+  font-family:var(--display);
+  font-weight:900;
+  font-size:clamp(1.8rem,3vw,3rem);
+  line-height:1; letter-spacing:-.03em;
+  color:var(--light);
+}
+.pbzh-temoignages-h2 em {
+  font-style:normal;
+  color:var(--green);
+}
+.pbzh-temoignages-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  max-width:1400px; margin:0 auto;
+  border:1px solid var(--border); border-radius:2px;
+  overflow:hidden;
+}
+.pbzh-temo-card {
+  background:var(--bg-2);
+  padding:40px 32px;
+  border-right:1px solid var(--border);
+  position:relative; overflow:hidden;
+  transition:background .3s ease;
+}
+.pbzh-temo-card:last-child { border-right:none; }
+.pbzh-temo-card:hover { background:#333333; }
+.pbzh-temo-card::after {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background:var(--green);
+}
+.pbzh-temo-stars { display:flex; gap:3px; margin-bottom:20px; }
+.pbzh-temo-stars svg { color:#F5C842; }
+.pbzh-temo-quote {
+  position:absolute; top:20px; right:24px;
+  font-family:var(--display); font-weight:900;
+  font-size:5rem; line-height:1; letter-spacing:0;
+  color:rgba(255,255,255,0.12);
+}
+.pbzh-temo-texte {
+  font-family:var(--body);
+  font-size:.95rem; font-weight:300; line-height:1.85;
+  color:var(--muted); margin-bottom:28px;
+  font-style:italic;
+}
+.pbzh-temo-auteur { display:flex; align-items:center; gap:14px; }
+.pbzh-temo-avatar {
+  width:44px; height:44px; border-radius:2px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--display); font-weight:900; font-size:1.1rem; color:#fff;
+  flex-shrink:0;
+}
+.pbzh-temo-nom { font-family:var(--body); font-weight:600; font-size:.9rem; color:var(--light); }
+.pbzh-temo-co  { font-family:var(--body); font-size:.75rem; color:var(--muted); }
+
+/* ════════════════════════════════════
+   CONTACT
+════════════════════════════════════ */
+#pbzh-contact {
+  position:relative;
+  background:var(--bg-2);
+  padding:120px 6vw;
+  overflow:hidden;
+}
+.pbzh-contact-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px; max-width:1400px; margin:0 auto;
+  position:relative; z-index:10;
+}
+.pbzh-contact-h2 {
+  font-family:var(--display);
+  font-weight:900;
+  font-size:clamp(1.8rem,3vw,3rem);
+  line-height:1; letter-spacing:-.03em;
+  color:var(--light); margin-bottom:24px;
+}
+.pbzh-contact-h2 em { font-style:normal; color:var(--orange); }
+.pbzh-contact-desc {
+  font-family:var(--body);
+  font-size:1.05rem; font-weight:300; line-height:1.9;
+  color:var(--muted); max-width:380px; margin-bottom:52px;
+}
+.pbzh-contact-items { display:flex; flex-direction:column; gap:0; }
+.pbzh-contact-item {
+  display:flex; gap:16px; align-items:flex-start;
+  padding:20px 0;
+  border-bottom:1px solid var(--border);
+}
+.pbzh-contact-item:first-child { border-top:1px solid var(--border); }
+.pbzh-contact-icon {
+  width:36px; height:36px; border-radius:2px;
+  background:var(--green-dim);
+  border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.pbzh-contact-label {
+  display:block; font-family:var(--body);
+  color:var(--light); font-size:.85rem; font-weight:500; margin-bottom:2px;
+}
+.pbzh-contact-val {
+  font-family:var(--body); color:var(--muted); font-size:.8rem; line-height:1.5;
+}
+
+/* Chatbot */
+.pbzh-chatbot {
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:2px; overflow:hidden;
+  display:flex; flex-direction:column;
+  height:520px; position:relative;
+}
+.pbzh-chatbot::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background:var(--green);
+}
+.pbzh-chatbot-header {
+  padding:18px 20px;
+  display:flex; align-items:center; gap:12px;
+  border-bottom:1px solid var(--border);
+  background:rgba(2,5,211,0.05);
+}
+.pbzh-chatbot-avatar {
+  width:34px; height:34px; border-radius:2px;
+  background:var(--green);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.pbzh-chatbot-title { font-family:var(--body); color:var(--light); font-weight:600; font-size:.9rem; }
+.pbzh-chatbot-subtitle { font-family:var(--body); color:var(--muted); font-size:.72rem; }
+.pbzh-chatbot-status { margin-left:auto; display:flex; align-items:center; gap:6px; }
+.pbzh-chatbot-dot { width:7px; height:7px; border-radius:50%; background:#4ADE80; animation:pbzh-dot-pulse 2s ease-in-out infinite; }
+.pbzh-chatbot-status span { font-family:var(--body); color:#4ADE80; font-size:.72rem; }
+.pbzh-chatbot-messages {
+  flex:1; overflow-y:auto; padding:16px;
+  display:flex; flex-direction:column; gap:10px;
+  scroll-behavior:smooth;
+}
+.pbzh-chatbot-messages::-webkit-scrollbar { width:3px; }
+.pbzh-chatbot-messages::-webkit-scrollbar-track { background:transparent; }
+.pbzh-chatbot-messages::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+.pbzh-msg { max-width:85%; }
+.pbzh-msg-bot  { align-self:flex-start; }
+.pbzh-msg-user { align-self:flex-end; }
+.pbzh-msg-bubble {
+  padding:10px 14px; border-radius:2px;
+  font-family:var(--body); font-size:.82rem; line-height:1.6;
+  white-space:pre-wrap;
+}
+.pbzh-msg-bot  .pbzh-msg-bubble { background:var(--green-dim); color:var(--light); border-left:2px solid var(--green); }
+.pbzh-msg-user .pbzh-msg-bubble { background:var(--orange-dim); color:var(--light); border-right:2px solid var(--orange); }
+.pbzh-typing {
+  align-self:flex-start; padding:10px 14px;
+  background:var(--green-dim); border-radius:2px;
+  border-left:2px solid var(--green);
+  display:flex; gap:4px; align-items:center;
+}
+.pbzh-typing span {
+  width:5px; height:5px; border-radius:50%;
+  background:rgba(2,5,211,0.3);
+  animation:pbzh-typingDot 1.2s ease-in-out infinite;
+}
+.pbzh-typing span:nth-child(2) { animation-delay:.2s; }
+.pbzh-typing span:nth-child(3) { animation-delay:.4s; }
+@keyframes pbzh-typingDot {
+  0%,60%,100% { opacity:.3; transform:translateY(0); }
+  30% { opacity:1; transform:translateY(-4px); }
+}
+.pbzh-chatbot-input {
+  padding:12px 14px;
+  border-top:1px solid var(--border);
+  display:flex; gap:8px;
+}
+.pbzh-chatbot-input input {
+  flex:1; background:rgba(2,5,211,0.03);
+  border:1px solid var(--border); border-radius:2px;
+  padding:10px 14px; color:var(--light);
+  font-family:var(--body); font-size:.82rem;
+  outline:none; transition:border-color .3s ease;
+}
+.pbzh-chatbot-input input:focus { border-color:var(--green); }
+.pbzh-chatbot-input input::placeholder { color:rgba(2,5,211,0.3); }
+.pbzh-chatbot-send {
+  width:40px; height:40px; border-radius:8px;
+  background:var(--orange); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .3s ease;
+  flex-shrink:0;
+}
+.pbzh-chatbot-send:disabled { background:rgba(2,5,211,0.1); cursor:default; }
+.pbzh-chatbot-send:not(:disabled):hover { background:var(--orange-hover); }
+
+/* ════════════════════════════════════
+   FOOTER
+════════════════════════════════════ */
+#pbzh-footer {
+  background:var(--bg);
+  padding:60px 6vw 36px;
+  border-top:1px solid var(--border);
+}
+.pbzh-footer-grid {
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:60px; max-width:1400px; margin:0 auto 48px;
+}
+.pbzh-footer-brand p {
+  font-family:var(--body); font-size:.85rem; line-height:1.7;
+  color:var(--muted); max-width:280px; margin-top:16px;
+}
+.pbzh-footer-col h4 {
+  font-family:var(--body); font-size:.65rem; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--green-bright); margin-bottom:20px;
+}
+.pbzh-footer-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.pbzh-footer-col ul a {
+  font-family:var(--body); color:var(--muted); font-size:.85rem;
+  transition:color .3s ease;
+}
+.pbzh-footer-col ul a:hover { color:var(--light); }
+.pbzh-footer-bottom {
+  max-width:1400px; margin:0 auto;
+  padding-top:24px; border-top:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+}
+.pbzh-footer-bottom span { font-family:var(--body); font-size:.75rem; color:rgba(255,255,255,0.5); }
+
+/* ════════════════════════════════════
+   CHAT WIDGET
+════════════════════════════════════ */
+#pbzh-chat-widget { position:fixed; bottom:28px; right:28px; z-index:9999; }
+.pbzh-chat-panel {
+  position:absolute; bottom:70px; right:0; width:360px;
+  opacity:0; pointer-events:none;
+  transform:translateY(16px) scale(.95);
+  transform-origin:bottom right;
+  transition:all .3s cubic-bezier(.22,1,.36,1);
+}
+.pbzh-chat-widget-open .pbzh-chat-panel {
+  opacity:1; pointer-events:all;
+  transform:translateY(0) scale(1);
+}
+.pbzh-chat-toggle {
+  width:54px; height:54px; border-radius:50%;
+  background:var(--green); border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 4px 20px rgba(2,5,211,0.3);
+  transition:transform .3s ease, box-shadow .3s ease;
+  position:relative;
+}
+.pbzh-chat-toggle:hover { transform:scale(1.06); box-shadow:0 6px 28px rgba(255,255,255,0.5); }
+.pbzh-chat-toggle .icon-open  { position:absolute; transition:opacity .2s ease; }
+.pbzh-chat-toggle .icon-close { position:absolute; opacity:0; transition:opacity .2s ease; }
+.pbzh-chat-widget-open .pbzh-chat-toggle .icon-open  { opacity:0; }
+.pbzh-chat-widget-open .pbzh-chat-toggle .icon-close { opacity:1; }
+.pbzh-chat-unread {
+  position:absolute; top:-6px; right:-6px;
+  width:20px; height:20px; border-radius:50%;
+  background:var(--orange);
+  font-family:var(--body); font-size:.65rem; font-weight:700;
+  color:#fff; display:flex; align-items:center; justify-content:center;
+}
+
+/* ════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════ */
+@media (max-width:1024px) {
+  .pbzh-atelier-inner  { grid-template-columns:1fr; }
+  .pbzh-contact-grid   { grid-template-columns:1fr; gap:60px; }
+  .pbzh-temoignages-grid { grid-template-columns:1fr 1fr; }
+  .pbzh-produits-grid  { grid-template-columns:repeat(2,1fr); }
+  .pbzh-footer-grid    { grid-template-columns:1fr 1fr; }
+  .pbzh-atelier-badge  { left:0; }
+}
+@media (max-width:768px) {
+  #pbzh-header { padding:14px 24px; }
+  .pbzh-nav { display:none; }
+  .pbzh-nav-toggle { display:flex; }
+  .pbzh-nav.is-open {
+    display:flex; flex-direction:column;
+    position:fixed; top:0; left:0; right:0; bottom:0;
+    background:rgba(245,240,234,.98);
+    align-items:center; justify-content:center;
+    gap:28px; z-index:999;
+  }
+  .pbzh-nav.is-open a { font-size:1.1rem; }
+  .pbzh-temoignages-grid { grid-template-columns:1fr; }
+  .pbzh-produits-grid    { grid-template-columns:1fr 1fr; }
+  .pbzh-footer-grid      { grid-template-columns:1fr; gap:32px; }
+  .pbzh-stanley { display:none; }
+  .pbzh-chat-panel { width:calc(100vw - 56px); right:-8px; }
+  .pbzh-tech-h3 { font-size:clamp(2rem, 8vw, 3.5rem); }
+  #pbzh-atelier, #pbzh-produits, #pbzh-temoignages, #pbzh-contact { padding:80px 6vw; }
+}
+@media (max-width:480px) {
+  .pbzh-produits-grid { grid-template-columns:1fr; }
+  .pbzh-hero-ctas { flex-direction:column; }
+  .pbzh-btn-primary, .pbzh-btn-outline { width:100%; justify-content:center; }
+}
+
+/* ════════════════════════════════════
+   SECTIONS SOMBRES (#2A2A2A) — overrides texte
+════════════════════════════════════ */
+#pbzh-produits {
+  --light:  #F5F0EA;
+  --muted:  rgba(245,240,234,0.6);
+  --border: rgba(255,255,255,0.1);
+}
+#pbzh-produits .pbzh-produit-card {
+  background:#333333;
+}
+#pbzh-produits .pbzh-produit-card:hover { background:#3D3D3D; }
+#pbzh-produits .pbzh-produits-h2,
+#pbzh-produits .pbzh-produits-h2 em { color:#F5F0EA; }
+#pbzh-produits .pbzh-produits-sub { color:rgba(245,240,234,0.6); }
+#pbzh-produits .pbzh-atelier-tag-text { color:#F5F0EA; }
+#pbzh-produits .pbzh-produits-more { background:#333333; }
+#pbzh-produits .pbzh-produits-more p { color:rgba(245,240,234,0.5); }
+
+#pbzh-contact {
+  --light:  #F5F0EA;
+  --muted:  rgba(245,240,234,0.6);
+  --border: rgba(255,255,255,0.12);
+}
+#pbzh-contact .pbzh-contact-h2,
+#pbzh-contact .pbzh-contact-h2 em { color:#F5F0EA; }
+#pbzh-contact .pbzh-atelier-tag-text { color:#F5F0EA; }
+#pbzh-contact .pbzh-contact-icon { background:rgba(2,5,211,0.3); border-color:rgba(255,255,255,0.15); }
+#pbzh-contact .pbzh-chatbot { background:#333333; border-color:rgba(255,255,255,0.12); }
+#pbzh-contact .pbzh-chatbot-input input { background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.15); color:#F5F0EA; }
+#pbzh-contact .pbzh-chatbot-input input::placeholder { color:rgba(245,240,234,0.4); }
+#pbzh-contact .pbzh-msg-bot .pbzh-msg-bubble { background:rgba(255,255,255,0.08); color:#F5F0EA; }
+#pbzh-contact .pbzh-msg-user .pbzh-msg-bubble { background:rgba(2,5,211,0.4); color:#F5F0EA; }
+#pbzh-contact .pbzh-chatbot-title { color:#F5F0EA; }
+
+/* Cartes témoignages sur fond sombre */
+.pbzh-temo-card {
+  --light:  #F5F0EA;
+  --muted:  rgba(245,240,234,0.65);
+}
+.pbzh-temo-card .pbzh-temo-nom { color:#F5F0EA; }
+
+/* Marquee dark → texte crème */
+.pbzh-marquee--dark .pbzh-marquee-item { color:rgba(245,240,234,0.7) !important; }
+.pbzh-marquee--dark .pbzh-marquee-dot  { background:var(--green) !important; }
+
+/* ════════════════════════════════════
+   FOOTER BLEU #0205D3
+════════════════════════════════════ */
+#pbzh-footer {
+  background: #0205D3;
+  border-top: none;
+}
+#pbzh-footer .pbzh-logo { color:#FFFFFF; }
+#pbzh-footer .pbzh-logo .dot { color:rgba(255,255,255,0.6); }
+#pbzh-footer .pbzh-footer-brand p { color:rgba(255,255,255,0.65); }
+#pbzh-footer .pbzh-footer-col h4 { color:rgba(255,255,255,0.5); }
+#pbzh-footer .pbzh-footer-col ul a { color:rgba(255,255,255,0.7); }
+#pbzh-footer .pbzh-footer-col ul a:hover { color:#FFFFFF; }
+#pbzh-footer .pbzh-footer-bottom { border-top-color:rgba(255,255,255,0.15); }
+#pbzh-footer .pbzh-footer-bottom span { color:rgba(255,255,255,0.45) !important; }
+</style>
+
+<div class="pbzh">
+
+  <!-- ════════ HEADER ════════ -->
+  <header id="pbzh-header">
+    <a href="/" class="pbzh-logo">PRINT<span class="dot">.</span>BZH</a>
+    <button class="pbzh-nav-toggle" id="pbzh-nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav>
+      <ul class="pbzh-nav" id="pbzh-nav">
+        <li><a href="#pbzh-atelier">L'atelier</a></li>
+        <li><a href="#pbzh-techniques">Techniques</a></li>
+        <li><a href="#pbzh-produits">Produits</a></li>
+        <li><a href="#pbzh-temoignages">Réalisations</a></li>
+        <li><a href="#pbzh-contact" class="pbzh-nav-cta">Demander un devis</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ════════ HERO ════════ -->
+  <section id="pbzh-hero">
+    <div class="pbzh-hero-photo">
+      <div class="pbzh-hero-photo-overlay"></div>
+    </div>
+    <div class="pbzh-dots"></div>
+    <div class="pbzh-scanline"></div>
+    <div class="pbzh-hero-lines"></div>
+    <div class="pbzh-bracket pbzh-bracket--tl"></div>
+    <div class="pbzh-bracket pbzh-bracket--br"></div>
+
+    <div class="pbzh-hero-content">
+
+      <div class="pbzh-hero-eyebrow pbzh-reveal">
+        <span class="pbzh-hero-eyebrow-tag">Impression textile · Brest · Bretagne</span>
+        <div class="pbzh-hero-eyebrow-line"></div>
+      </div>
+
+      <h1 class="pbzh-hero-h1">
+        <span class="line-1 pbzh-reveal" style="transition-delay:.1s">De beaux</span>
+        <span class="line-2 pbzh-reveal" style="transition-delay:.22s">articles pour</span>
+        <span class="line-3 pbzh-reveal" style="transition-delay:.34s">les créatifs.</span>
+      </h1>
+
+      <div class="pbzh-hero-divider pbzh-reveal" style="transition-delay:.5s"></div>
+
+      <div class="pbzh-hero-bottom">
+        <p class="pbzh-hero-sub pbzh-reveal" style="transition-delay:.6s">
+          Nous aidons les marques créatives et les agences à fabriquer des articles personnalisés haut de gamme grâce à une commande en ligne simple.
+          <br><strong>Vêtements et accessoires sérigraphiés et brodés sur mesure de vos idées.</strong>
+        </p>
+        <div class="pbzh-hero-ctas pbzh-reveal" style="transition-delay:.75s">
+          <a href="#pbzh-contact" class="pbzh-btn-primary">
+            Demander un devis
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 8H12.5M12.5 8L8.5 4M12.5 8L8.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#pbzh-atelier" class="pbzh-btn-outline">Découvrir l'atelier</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pbzh-stanley pbzh-reveal" style="transition-delay:.9s">
+      <span class="pbzh-stanley-tag">Revendeur officiel</span>
+      <span class="pbzh-stanley-name">Stanley Stella</span>
+    </div>
+
+    <div class="pbzh-scroll pbzh-reveal" style="transition-delay:1.1s">
+      <span class="pbzh-scroll-text">Scroll</span>
+      <div class="pbzh-scroll-bar"></div>
+    </div>
+  </section>
+
+  <!-- ════════ MARQUEE 1 ════════ -->
+  <div class="pbzh-marquee">
+    <div class="pbzh-marquee-track">
+      {% for i in (1..6) %}
+      <span class="pbzh-marquee-item">
+        Sérigraphie <div class="pbzh-marquee-dot"></div>
+        Broderie <div class="pbzh-marquee-dot"></div>
+        Marquage DTF <div class="pbzh-marquee-dot"></div>
+        Brest · Bretagne <div class="pbzh-marquee-dot"></div>
+        Since 2017 <div class="pbzh-marquee-dot"></div>
+        Stanley Stella <div class="pbzh-marquee-dot"></div>
+        Textile Premium <div class="pbzh-marquee-dot"></div>
+      </span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ════════ ATELIER ════════ -->
+  <section id="pbzh-atelier">
+    <div class="pbzh-dots" style="opacity:.2"></div>
+    <div class="pbzh-section-num pbzh-atelier-num">01</div>
+
+    <div class="pbzh-atelier-inner">
+      <div class="pbzh-atelier-left">
+        <div class="pbzh-atelier-tag pbzh-reveal">
+          <div class="pbzh-atelier-tag-line"></div>
+          <span class="pbzh-atelier-tag-text">L'atelier</span>
+        </div>
+        <h2 class="pbzh-atelier-h2 pbzh-reveal" style="transition-delay:.1s">
+          Approuvé par nos<br>clients. <em>À chaque fois.</em>
+        </h2>
+        <div class="pbzh-atelier-feats">
+          <div class="pbzh-atelier-feat pbzh-reveal" style="transition-delay:.2s">
+            <div class="pbzh-atelier-feat-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <p class="pbzh-atelier-feat-title"><span>Qualité garantie</span> — Nous sommes un atelier artisanal, pas une usine à la demande.</p>
+            <p class="pbzh-atelier-feat-desc">Nous parlons votre langue et garantissons notre savoir-faire, en veillant à ce que votre vision se traduise parfaitement sur le vêtement final.</p>
+          </div>
+          <div class="pbzh-atelier-feat pbzh-reveal" style="transition-delay:.3s">
+            <div class="pbzh-atelier-feat-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+            </div>
+            <p class="pbzh-atelier-feat-title"><span>Petites quantités</span> — Commencez avec seulement 20 pièces ou montez jusqu'à 20 000.</p>
+            <p class="pbzh-atelier-feat-desc">Notre studio de sérigraphie est conçu pour gérer des commandes de toute taille avec la même cohérence professionnelle.</p>
+          </div>
+          <div class="pbzh-atelier-feat pbzh-reveal" style="transition-delay:.4s">
+            <div class="pbzh-atelier-feat-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M19 12l-6-6M19 12l-6 6"/></svg>
+            </div>
+            <p class="pbzh-atelier-feat-title"><span>Livraison gratuite</span> — Pas de frais cachés, juste des articles premium.</p>
+            <p class="pbzh-atelier-feat-desc">Nous offrons la livraison gratuite sur la Bretagne pour chaque commande.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="pbzh-atelier-right pbzh-reveal" style="transition-delay:.25s">
+        <div class="pbzh-atelier-img-wrap">
+          <!-- <img src="{{ 'printbzh-atelier.jpg' | asset_url }}" alt="Atelier PRINT.BZH"> -->
+          <div class="pbzh-atelier-placeholder">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(2,5,211,0.4)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>printbzh-atelier.jpg</span>
+          </div>
+          <div class="pbzh-atelier-glow-border"></div>
+        </div>
+        <div class="pbzh-atelier-badge pbzh-reveal" style="transition-delay:.5s">
+          <strong>Un interlocuteur unique</strong>
+          <span>De la création à la livraison</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ MARQUEE 2 ════════ -->
+  <div class="pbzh-marquee pbzh-marquee--dark pbzh-marquee--reverse">
+    <div class="pbzh-marquee-track">
+      {% for i in (1..6) %}
+      <span class="pbzh-marquee-item">
+        Associations <div class="pbzh-marquee-dot"></div>
+        Entreprises <div class="pbzh-marquee-dot"></div>
+        Bars & Restos <div class="pbzh-marquee-dot"></div>
+        Artistes <div class="pbzh-marquee-dot"></div>
+        Clubs de sport <div class="pbzh-marquee-dot"></div>
+        Créateurs <div class="pbzh-marquee-dot"></div>
+        Merch & Uniformes <div class="pbzh-marquee-dot"></div>
+      </span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ════════ TECHNIQUES ════════ -->
+  <div id="pbzh-techniques">
+    <div class="pbzh-tech-header">
+      <div class="pbzh-dots" style="opacity:.3"></div>
+      <div class="pbzh-bracket pbzh-bracket--tl"></div>
+      <div class="pbzh-bracket pbzh-bracket--br"></div>
+      <div class="pbzh-tech-header-inner">
+        <h2 class="pbzh-reveal">
+          TROIS FAÇONS<br>DE <em>MARQUER</em><br>LES ESPRITS.
+        </h2>
+        <p class="pbzh-tech-header-sub pbzh-reveal" style="transition-delay:.15s">
+          Chaque technique répond à des besoins spécifiques. Nous vous conseillons sur le meilleur choix pour votre projet.
+        </p>
+      </div>
+    </div>
+
+    <!-- Sérigraphie -->
+    <section class="pbzh-tech-block pbzh-tech-block--seri">
+      <div class="pbzh-dots" style="opacity:.15"></div>
+      <div class="pbzh-tech-vline"></div>
+      <div class="pbzh-tech-bg-num">01</div>
+      <div class="pbzh-tech-content">
+        <div class="pbzh-tech-eyebrow pbzh-reveal">
+          <span class="pbzh-tech-eyebrow-num">01</span>
+          <div class="pbzh-tech-eyebrow-sep"></div>
+          <span class="pbzh-tech-eyebrow-label">Technique</span>
+        </div>
+        <h3 class="pbzh-tech-h3 pbzh-reveal" style="transition-delay:.1s">
+          SÉRI<span class="glow">GRA</span><br>PHIE
+        </h3>
+        <p class="pbzh-tech-desc pbzh-reveal" style="transition-delay:.2s">
+          La technique reine pour les grandes séries. Un rendu éclatant, des couleurs intenses et une tenue dans le temps incomparable. Idéale pour les t-shirts, sweats et tote bags en quantité.
+        </p>
+        <div class="pbzh-tech-tag-list pbzh-reveal" style="transition-delay:.3s">
+          <span class="pbzh-tech-tag">Grandes séries</span>
+          <span class="pbzh-tech-tag">Couleurs intenses</span>
+          <span class="pbzh-tech-tag">Longue durabilité</span>
+          <span class="pbzh-tech-tag">T-shirts · Sweats · Tote bags</span>
+        </div>
+        <a href="#pbzh-contact" class="pbzh-tech-cta pbzh-reveal" style="transition-delay:.4s">
+          Demander un devis sérigraphie
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 8H12.5M12.5 8L8.5 4M12.5 8L8.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Broderie -->
+    <section class="pbzh-tech-block pbzh-tech-block--brode">
+      <div class="pbzh-dots" style="opacity:.15"></div>
+      <div class="pbzh-tech-vline"></div>
+      <div class="pbzh-tech-bg-num">02</div>
+      <div class="pbzh-tech-content" style="margin-left:auto;text-align:right">
+        <div class="pbzh-tech-eyebrow pbzh-reveal" style="justify-content:flex-end">
+          <span class="pbzh-tech-eyebrow-label">Technique</span>
+          <div class="pbzh-tech-eyebrow-sep"></div>
+          <span class="pbzh-tech-eyebrow-num">02</span>
+        </div>
+        <h3 class="pbzh-tech-h3 pbzh-reveal" style="transition-delay:.1s">
+          BRO<span class="stroke">DE</span><br>RIE
+        </h3>
+        <p class="pbzh-tech-desc pbzh-reveal" style="transition-delay:.2s;margin-left:auto">
+          Le haut de gamme du marquage textile. Un relief, une texture et une durabilité qui donnent une vraie valeur perçue à vos pièces. Parfaite pour les polos, casquettes et vêtements de travail.
+        </p>
+        <div class="pbzh-tech-tag-list pbzh-reveal" style="transition-delay:.3s;justify-content:flex-end">
+          <span class="pbzh-tech-tag">Rendu haut de gamme</span>
+          <span class="pbzh-tech-tag">Relief & texture</span>
+          <span class="pbzh-tech-tag">Polos · Casquettes</span>
+        </div>
+        <div style="display:flex;justify-content:flex-end">
+          <a href="#pbzh-contact" class="pbzh-tech-cta pbzh-reveal" style="transition-delay:.4s">
+            Demander un devis broderie
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 8H12.5M12.5 8L8.5 4M12.5 8L8.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- DTF -->
+    <section class="pbzh-tech-block pbzh-tech-block--dtf">
+      <div class="pbzh-dots" style="opacity:.15"></div>
+      <div class="pbzh-tech-vline"></div>
+      <div class="pbzh-tech-bg-num">03</div>
+      <div class="pbzh-tech-content">
+        <div class="pbzh-tech-eyebrow pbzh-reveal">
+          <span class="pbzh-tech-eyebrow-num">03</span>
+          <div class="pbzh-tech-eyebrow-sep"></div>
+          <span class="pbzh-tech-eyebrow-label">Technique</span>
+        </div>
+        <h3 class="pbzh-tech-h3 pbzh-reveal" style="transition-delay:.1s">
+          MAR<span class="glow">QUAGE</span><br>DTF
+        </h3>
+        <p class="pbzh-tech-desc pbzh-reveal" style="transition-delay:.2s">
+          L'impression directe sur textile, sans limite de couleurs. Parfaite pour les visuels complexes, les petites séries ou les pièces uniques. Un rendu photo réaliste, fidèle à votre création.
+        </p>
+        <div class="pbzh-tech-tag-list pbzh-reveal" style="transition-delay:.3s">
+          <span class="pbzh-tech-tag">Petites séries</span>
+          <span class="pbzh-tech-tag">Visuels complexes</span>
+          <span class="pbzh-tech-tag">Rendu photo</span>
+          <span class="pbzh-tech-tag">Pièces uniques</span>
+        </div>
+        <a href="#pbzh-contact" class="pbzh-tech-cta pbzh-reveal" style="transition-delay:.4s">
+          Demander un devis DTF
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3.5 8H12.5M12.5 8L8.5 4M12.5 8L8.5 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <!-- ════════ PRODUITS ════════ -->
+  <section id="pbzh-produits">
+    <div class="pbzh-dots" style="opacity:.2"></div>
+    <div class="pbzh-produits-header">
+      <div>
+        <div class="pbzh-atelier-tag pbzh-reveal" style="margin-bottom:16px">
+          <div class="pbzh-atelier-tag-line"></div>
+          <span class="pbzh-atelier-tag-text">Nos produits</span>
+        </div>
+        <h2 class="pbzh-produits-h2 pbzh-reveal" style="transition-delay:.1s">
+          TEXTILE<br><em>PREMIUM</em>
+        </h2>
+      </div>
+      <p class="pbzh-produits-sub pbzh-reveal" style="transition-delay:.2s">
+        Stanley Stella, AS Colour, Native Spirit… Des marques engagées, des matières nobles, disponibles du XS au 5XL.
+      </p>
+    </div>
+
+    <div class="pbzh-produits-grid">
+      <div class="pbzh-produit-card pbzh-reveal">
+        <div class="pbzh-produit-img">
+          <!-- <img src="{{ 'printbzh-produit-tshirt.jpg' | asset_url }}" alt="T-shirts"> -->
+          <div class="pbzh-produit-img-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"/></svg>
+          </div>
+        </div>
+        <div class="pbzh-produit-info">
+          <span class="pbzh-produit-num">01 — T-shirts</span>
+          <h3 class="pbzh-produit-h3">T-SHIRTS</h3>
+          <p class="pbzh-produit-p">Le basique incontournable. Coton bio, coupe moderne, prêt à recevoir votre marquage.</p>
+          <a href="#pbzh-contact" class="pbzh-produit-link">Devis <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8H12.5M12.5 8L8.5 4M12.5 8L8.5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="pbzh-produit-card pbzh-reveal" style="transition-delay:.08s">
+        <div class="pbzh-produit-img">
+          <!-- <img src="{{ 'printbzh-produit-sweat.jpg' | asset_url }}" alt="Sweats"> -->
+          <div class="pbzh-produit-img-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"/><path d="M12 2v6M9 8h6"/></svg>
+          </div>
+        </div>
+        <div class="pbzh-produit-info">
+          <span class="pbzh-produit-num">02 — Sweats</span>
+          <h3 class="pbzh-produit-h3">SWEATS & HOODIES</h3>
+          <p class="pbzh-produit-p">Confort et style. Idéals pour le merch, les équipes ou la revente — du XS au 5XL.</p>
+          <a href="#pbzh-contact" class="pbzh-produit-link">Devis <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8H12.5M12.5 8L8.5 4M12.5 8L8.5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="pbzh-produit-card pbzh-reveal" style="transition-delay:.16s">
+        <div class="pbzh-produit-img">
+          <!-- <img src="{{ 'printbzh-produit-casquette.jpg' | asset_url }}" alt="Casquettes"> -->
+          <div class="pbzh-produit-img-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c0-3.5 3.5-6 10-6s10 2.5 10 6"/><path d="M2 12c0 2 2 4 5 4.5"/><path d="M22 12c0 2-2 4-5 4.5"/><path d="M7 16.5v2M17 16.5v2M2 12h20M12 6V4"/></svg>
+          </div>
+        </div>
+        <div class="pbzh-produit-info">
+          <span class="pbzh-produit-num">03 — Casquettes</span>
+          <h3 class="pbzh-produit-h3">CASQUETTES</h3>
+          <p class="pbzh-produit-p">La touche finale de votre collection. Broderie ou marquage, pour un rendu premium.</p>
+          <a href="#pbzh-contact" class="pbzh-produit-link">Devis <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8H12.5M12.5 8L8.5 4M12.5 8L8.5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="pbzh-produit-card pbzh-reveal" style="transition-delay:.24s">
+        <div class="pbzh-produit-img">
+          <!-- <img src="{{ 'printbzh-produit-totebag.jpg' | asset_url }}" alt="Tote bags"> -->
+          <div class="pbzh-produit-img-icon">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </div>
+        </div>
+        <div class="pbzh-produit-info">
+          <span class="pbzh-produit-num">04 — Tote bags</span>
+          <h3 class="pbzh-produit-h3">TOTE BAGS</h3>
+          <p class="pbzh-produit-p">L'accessoire éco-responsable. Parfait pour les événements et la communication.</p>
+          <a href="#pbzh-contact" class="pbzh-produit-link">Devis <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M3.5 8H12.5M12.5 8L8.5 4M12.5 8L8.5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pbzh-produits-more pbzh-reveal">
+      <p>AS Colour · Native Spirit · SOLS · ATLANTIS — et bien d'autres marques disponibles.</p>
+      <a href="#pbzh-contact">Parlez-nous de votre projet <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3.5 8H12.5M12.5 8L8.5 4M12.5 8L8.5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+  </section>
+
+  <!-- ════════ TÉMOIGNAGES ════════ -->
+  <section id="pbzh-temoignages">
+    <div class="pbzh-dots" style="opacity:.2"></div>
+    <div class="pbzh-temoignages-header">
+      <div class="pbzh-temo-tag pbzh-reveal">
+        <div class="pbzh-atelier-tag-line"></div>
+        <span>Témoignages</span>
+      </div>
+      <h2 class="pbzh-temoignages-h2 pbzh-reveal" style="transition-delay:.1s">
+        ILS NOUS FONT<br><em>CONFIANCE.</em>
+      </h2>
+    </div>
+
+    <div class="pbzh-temoignages-grid">
+      <div class="pbzh-temo-card pbzh-reveal">
+        <div class="pbzh-temo-quote">"</div>
+        <div class="pbzh-temo-stars">
+          {% for i in (1..5) %}<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{% endfor %}
+        </div>
+        <p class="pbzh-temo-texte">Contact excellent. Produit de la qualité attendue. Impression de qualité et durable malgré les nombreux lavages. Impression ne s'efface pas et ne se fissure pas avec le lavage. J'ai déjà d'autres projets à leur soumettre.</p>
+        <div class="pbzh-temo-auteur">
+          <div class="pbzh-temo-avatar" style="background:var(--orange)">C</div>
+          <div>
+            <div class="pbzh-temo-nom">Charly Vermeulen</div>
+            <div class="pbzh-temo-co">Client particulier</div>
+          </div>
+        </div>
+      </div>
+      <div class="pbzh-temo-card pbzh-reveal" style="transition-delay:.1s">
+        <div class="pbzh-temo-quote">"</div>
+        <div class="pbzh-temo-stars">
+          {% for i in (1..5) %}<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{% endfor %}
+        </div>
+        <p class="pbzh-temo-texte">Nous avons bien reçu notre commande de 45 pulls de bonne qualité rapidement après la validation. Malgré la rupture de stock temporaire d'une couleur, le service proposé est qualitatif, sérieux et fiable. Merci !</p>
+        <div class="pbzh-temo-auteur">
+          <div class="pbzh-temo-avatar" style="background:#7C3AED">A</div>
+          <div>
+            <div class="pbzh-temo-nom">Alexandre Thuaud</div>
+            <div class="pbzh-temo-co">Client entreprise</div>
+          </div>
+        </div>
+      </div>
+      <div class="pbzh-temo-card pbzh-reveal" style="transition-delay:.2s">
+        <div class="pbzh-temo-quote">"</div>
+        <div class="pbzh-temo-stars">
+          {% for i in (1..5) %}<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>{% endfor %}
+        </div>
+        <p class="pbzh-temo-texte">PRO, ÉTHIQUE, RAPIDE et travaille avec passion !! Vêtements de qualité, vraiment top !!</p>
+        <div class="pbzh-temo-auteur">
+          <div class="pbzh-temo-avatar" style="background:var(--green)">S</div>
+          <div>
+            <div class="pbzh-temo-nom">Surfing Abers</div>
+            <div class="pbzh-temo-co">Club de surf</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ CONTACT ════════ -->
+  <section id="pbzh-contact">
+    <div class="pbzh-dots" style="opacity:.2"></div>
+    <div class="pbzh-bracket pbzh-bracket--tl"></div>
+    <div class="pbzh-bracket pbzh-bracket--br"></div>
+
+    <div class="pbzh-contact-grid">
+      <div>
+        <div class="pbzh-atelier-tag pbzh-reveal" style="margin-bottom:20px">
+          <div class="pbzh-atelier-tag-line"></div>
+          <span class="pbzh-atelier-tag-text">Contact & Devis</span>
+        </div>
+        <h2 class="pbzh-contact-h2 pbzh-reveal" style="transition-delay:.1s">
+          UN PROJET ?<br><em>PARLONS-EN.</em>
+        </h2>
+        <p class="pbzh-contact-desc pbzh-reveal" style="transition-delay:.2s">
+          Décrivez-nous votre projet et recevez un devis personnalisé sous 24h. On vous accompagne de A à Z.
+        </p>
+        <div class="pbzh-contact-items pbzh-reveal" style="transition-delay:.3s">
+          <div class="pbzh-contact-item">
+            <div class="pbzh-contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div><span class="pbzh-contact-label">Atelier</span><span class="pbzh-contact-val">Brest, Finistère — Bretagne, France</span></div>
+          </div>
+          <div class="pbzh-contact-item">
+            <div class="pbzh-contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div><span class="pbzh-contact-label">Email</span><span class="pbzh-contact-val">contact@print.bzh</span></div>
+          </div>
+          <div class="pbzh-contact-item">
+            <div class="pbzh-contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg></div>
+            <div><span class="pbzh-contact-label">Téléphone</span><span class="pbzh-contact-val">06 69 90 30 24</span></div>
+          </div>
+          <div class="pbzh-contact-item">
+            <div class="pbzh-contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+            <div><span class="pbzh-contact-label">Instagram</span><span class="pbzh-contact-val">@print.bzh</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pbzh-reveal" style="transition-delay:.25s">
+        <div class="pbzh-chatbot" id="pbzh-chatbot-embedded">
+          <div class="pbzh-chatbot-header">
+            <div class="pbzh-chatbot-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5F0EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <div><div class="pbzh-chatbot-title">Assistant PRINT.BZH</div><div class="pbzh-chatbot-subtitle">Devis en 2 minutes</div></div>
+            <div class="pbzh-chatbot-status"><div class="pbzh-chatbot-dot"></div><span>En ligne</span></div>
+          </div>
+          <div class="pbzh-chatbot-messages" id="pbzh-chat-messages-embedded"></div>
+          <div class="pbzh-chatbot-input">
+            <label for="pbzh-chat-file-embedded" style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex-shrink:0;border:1px solid var(--border);border-radius:2px;transition:border-color .3s" title="Joindre un fichier"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(28,28,26,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg></label>
+            <input type="file" id="pbzh-chat-file-embedded" style="display:none" accept="image/*,.pdf,.ai,.eps,.svg">
+            <input type="text" id="pbzh-chat-input-embedded" placeholder="Tapez votre message…">
+            <button class="pbzh-chatbot-send" id="pbzh-chat-send-embedded" disabled aria-label="Envoyer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5F0EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ FOOTER ════════ -->
+  <footer id="pbzh-footer">
+    <div class="pbzh-footer-grid">
+      <div class="pbzh-footer-brand">
+        <div class="pbzh-logo">PRINT<span class="dot">.</span>BZH</div>
+        <p>Atelier d'impression textile à Brest. Sérigraphie, broderie et marquage DTF pour les professionnels et créateurs exigeants.</p>
+      </div>
+      <div class="pbzh-footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#pbzh-atelier">L'atelier</a></li>
+          <li><a href="#pbzh-techniques">Nos techniques</a></li>
+          <li><a href="#pbzh-produits">Nos produits</a></li>
+          <li><a href="#pbzh-temoignages">Réalisations</a></li>
+          <li><a href="#pbzh-contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="pbzh-footer-col">
+        <h4>Techniques</h4>
+        <ul>
+          <li><a href="#pbzh-techniques">Sérigraphie</a></li>
+          <li><a href="#pbzh-techniques">Broderie</a></li>
+          <li><a href="#pbzh-techniques">Marquage DTF</a></li>
+          <li><a href="#pbzh-contact">Demander un devis</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pbzh-footer-bottom">
+      <span>© 2026 PRINT.BZH — Tous droits réservés</span>
+      <span>Brest · Bretagne · France</span>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ════════ CHAT WIDGET ════════ -->
+<div id="pbzh-chat-widget">
+  <div class="pbzh-chat-panel">
+    <div class="pbzh-chatbot" id="pbzh-chatbot-widget" style="height:460px;box-shadow:0 20px 60px rgba(0,0,0,.6)">
+      <div class="pbzh-chatbot-header">
+        <div class="pbzh-chatbot-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5F0EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <div><div class="pbzh-chatbot-title">Assistant PRINT.BZH</div><div class="pbzh-chatbot-subtitle">Devis rapide en ligne</div></div>
+        <div class="pbzh-chatbot-status"><div class="pbzh-chatbot-dot"></div><span>En ligne</span></div>
+      </div>
+      <div class="pbzh-chatbot-messages" id="pbzh-chat-messages-widget"></div>
+      <div class="pbzh-chatbot-input">
+        <label for="pbzh-chat-file-widget" style="cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex-shrink:0;border:1px solid var(--border);border-radius:2px;transition:border-color .3s" title="Joindre un fichier"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(28,28,26,0.35)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg></label>
+        <input type="file" id="pbzh-chat-file-widget" style="display:none" accept="image/*,.pdf,.ai,.eps,.svg">
+        <input type="text" id="pbzh-chat-input-widget" placeholder="Tapez votre message…">
+        <button class="pbzh-chatbot-send" id="pbzh-chat-send-widget" disabled aria-label="Envoyer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F5F0EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div style="position:relative;display:inline-block">
+    <button class="pbzh-chat-toggle" id="pbzh-chat-toggle" aria-label="Ouvrir le chat">
+      <svg class="icon-open" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5F0EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5F0EA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <span class="pbzh-chat-unread" id="pbzh-chat-unread">1</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  const N8N_WEBHOOK      = 'https://n8n.srv1486051.hstgr.cloud/webhook/devis-printbzh';
+const N8N_CHAT_WEBHOOK = 'https://n8n.srv1486051.hstgr.cloud/webhook/chat-v2';
+
+  /* ── Header scroll ── */
+  const header = document.getElementById('pbzh-header');
+  window.addEventListener('scroll',()=>{
+    header.classList.toggle('is-scrolled', window.scrollY > 50);
+  },{ passive:true });
+
+  /* ── Menu mobile ── */
+  const toggle = document.getElementById('pbzh-nav-toggle');
+  const nav    = document.getElementById('pbzh-nav');
+  toggle?.addEventListener('click',()=> nav.classList.toggle('is-open'));
+  nav?.querySelectorAll('a').forEach(a=> a.addEventListener('click',()=> nav.classList.remove('is-open')));
+
+  /* ── Hero init ── */
+  setTimeout(()=>{
+    document.querySelectorAll('#pbzh-hero .pbzh-reveal').forEach(el=> el.classList.add('is-visible'));
+  }, 120);
+
+  /* ── IntersectionObserver ── */
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const el = e.target;
+      const d  = parseFloat(el.style.transitionDelay)||0;
+      setTimeout(()=> el.classList.add('is-visible'), d*1000);
+      obs.unobserve(el);
+    });
+  },{ threshold:0.12 });
+
+  document.querySelectorAll('.pbzh-reveal').forEach(el=>{
+    if(!el.closest('#pbzh-hero')) obs.observe(el);
+  });
+
+  /* ── Smooth scroll ── */
+  document.querySelectorAll('a[href^="#pbzh-"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const t = document.querySelector(a.getAttribute('href'));
+      if(t){ e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+    });
+  });
+
+  /* ── Chatbot IA (relais n8n / Claude) ── */
+  function createChatbot(msgId, inputId, sendId, fileId){
+    const msgs  = document.getElementById(msgId);
+    const input = document.getElementById(inputId);
+    const send  = document.getElementById(sendId);
+    const fileInput = fileId ? document.getElementById(fileId) : null;
+    if(!msgs||!input||!send) return;
+
+    const sessionId = Math.random().toString(36).slice(2);
+    let history = [];
+    let busy    = false;
+    let pendingFile = null;
+
+    const addMsg=(text,type)=>{
+      const d=document.createElement('div');
+      d.className=`pbzh-msg pbzh-msg-${type}`;
+      const b=document.createElement('div');
+      b.className='pbzh-msg-bubble';
+      b.textContent=text;
+      d.appendChild(b);
+      msgs.appendChild(d);
+      msgs.scrollTop=msgs.scrollHeight;
+    };
+
+    const showTyping=()=>{
+      const d=document.createElement('div');
+      d.className='pbzh-typing'; d.id=msgId+'-typing';
+      d.innerHTML='<span></span><span></span><span></span>';
+      msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight;
+    };
+    const hideTyping=()=>{ document.getElementById(msgId+'-typing')?.remove(); };
+
+    const readFile=(file)=> new Promise((resolve)=>{
+      const reader = new FileReader();
+      reader.onload = e => resolve({ name: file.name, type: file.type, data: e.target.result.split(',')[1] });
+      reader.readAsDataURL(file);
+    });
+
+    const askBot=async(userMsg, fileData)=>{
+      busy=true; send.disabled=true; showTyping();
+      if(userMsg) history.push({ role:'user', content:userMsg });
+      try {
+        const payload = { message: userMsg||'', history, session_id: sessionId };
+        if(fileData) payload.file = fileData;
+        const res  = await fetch(N8N_CHAT_WEBHOOK, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        });
+        const rawData = await res.json();
+        const data = Array.isArray(rawData) ? rawData[0] : rawData;
+        const reply = data.reply || data.message || "Je n'ai pas pu traiter votre demande, réessayez.";
+        hideTyping();
+        addMsg(reply,'bot');
+        history.push({ role:'assistant', content:reply });
+        if(data.done){ send.disabled=true; input.disabled=true; input.placeholder='Conversation terminée'; }
+        else { busy=false; send.disabled=!input.value.trim(); }
+      } catch(e){
+        hideTyping();
+        addMsg("Connexion impossible. Contactez-nous directement : 06 69 90 30 24",'bot');
+        busy=false; send.disabled=!input.value.trim();
+      }
+    };
+
+    const doSend=async()=>{
+      let txt = input.value.trim();
+      if(!txt && !pendingFile) return;
+      if(!txt && pendingFile) txt = 'Voici mon fichier visuel.';
+      let displayMsg = txt;
+      if(pendingFile) displayMsg += (txt ? ' ' : '') + '📎 ' + pendingFile.name;
+      addMsg(displayMsg,'user');
+      input.value=''; send.disabled=true;
+      const fileData = pendingFile ? await readFile(pendingFile) : null;
+      pendingFile = null;
+      if(fileInput){ fileInput.value=''; }
+      askBot(txt, fileData);
+    };
+
+    if(fileInput){
+      fileInput.addEventListener('change',()=>{
+        if(fileInput.files[0]){
+          pendingFile = fileInput.files[0];
+          send.disabled = false;
+          input.placeholder = '📎 ' + pendingFile.name + ' – Ajoutez un message ou envoyez';
+        }
+      });
+    }
+
+    setTimeout(()=> askBot(''), 400);
+    input.addEventListener('input',()=>{ if(!busy) send.disabled=(!input.value.trim() && !pendingFile); });
+    input.addEventListener('keydown',e=>{ if(e.key==='Enter') doSend(); });
+    send.addEventListener('click', doSend);
+  }
+
+  createChatbot('pbzh-chat-messages-embedded','pbzh-chat-input-embedded','pbzh-chat-send-embedded','pbzh-chat-file-embedded');
+  createChatbot('pbzh-chat-messages-widget',  'pbzh-chat-input-widget',  'pbzh-chat-send-widget',  'pbzh-chat-file-widget');
+
+  /* ── Chat widget toggle ── */
+  const widget = document.getElementById('pbzh-chat-widget');
+  const unread = document.getElementById('pbzh-chat-unread');
+  document.getElementById('pbzh-chat-toggle')?.addEventListener('click',()=>{
+    widget.classList.toggle('pbzh-chat-widget-open');
+    if(widget.classList.contains('pbzh-chat-widget-open')) unread.style.display='none';
+  });
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "PRINT.BZH Landing",
+  "settings": [],
+  "presets": [{ "name": "PRINT.BZH Landing" }]
+}
+{% endschema %}
